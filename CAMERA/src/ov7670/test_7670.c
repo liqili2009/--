@@ -29,19 +29,12 @@
  /* Private define ------------------------------------------------------------*/
 #define LCD_REG              (*((volatile unsigned short *) 0x6F000000)) /* RS = 0 */
 #define LCD_RAM              (*((volatile unsigned short *) 0x6F010000)) /* R = 1 */
-/** @addtogroup STM32F2xx_StdPeriph_Examples
-  * @{
-  */
-
-/** @addtogroup IOToggle
-  * @{
-  */ 
 
 
 /**
   * @brief  Main program
   * @param  None
-  * @retval None
+  * @retval Nones
   */
 
 /*
