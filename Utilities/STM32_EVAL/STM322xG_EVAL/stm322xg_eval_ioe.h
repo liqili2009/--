@@ -323,6 +323,14 @@ typedef enum
 #define IOE_REG_GPIO_FE            0x16
 #define IOE_REG_GPIO_AF            0x17
 
+
+#define CAT_9554_INPUT_REG		0x0
+#define CAT_9554_OUTPUT_REG		0x01
+#define CAT_9554_POLAR_REG		0x02
+#define CAT_9554_CONFIG_REG		0x03
+
+
+
 /** 
   * @brief  ADC Registers  
   */ 
@@ -384,13 +392,13 @@ typedef enum
 /**
   * @brief JOYSTICK Pins definition 
   */ 
-#define JOY_IO_SEL                   IO_Pin_7
-#define JOY_IO_DOWN                  IO_Pin_6
-#define JOY_IO_LEFT                  IO_Pin_5
-#define JOY_IO_RIGHT                 IO_Pin_4
-#define JOY_IO_UP                    IO_Pin_3
+#define JOY_IO_SEL                   IO_Pin_0
+#define JOY_IO_DOWN                  IO_Pin_1
+#define JOY_IO_LEFT                  IO_Pin_2
+#define JOY_IO_RIGHT                 IO_Pin_3
+#define JOY_IO_UP                    IO_Pin_4
 #define JOY_IO_NONE                  JOY_IO_PINS
-#define JOY_IO_PINS                  (uint32_t)(IO_Pin_3 | IO_Pin_4 | IO_Pin_5 | IO_Pin_6 | IO_Pin_7)
+#define JOY_IO_PINS                  (uint32_t)(IO_Pin_0 | IO_Pin_1 | IO_Pin_2 | IO_Pin_3 | IO_Pin_4)
 
 /** 
   * @brief  IO Pins  

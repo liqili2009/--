@@ -46,7 +46,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm322xg_eval_ioe.h"
-
+#include "expioint.h"
 /** @addtogroup Utilities
   * @{
   */
@@ -163,6 +163,12 @@ uint8_t IOE_Config(void)
 	I2C_WriteDeviceRegister(0x42,0x01,0xDF);
 
   
+        
+        
+         I2C_WriteDeviceRegister(IOE_2_ADDR,0x03,0x1F);//set exp i/o 0...7 as input
+         
+         EXPIO_Config();
+
   /* ---------------------- IO Expander 1 configuration --------------------- */
   /* Enable the GPIO, Touch Screen and ADC functionalities */
   //IOE_FnctCmd(IOE_1_ADDR, IOE_IO_FCT | IOE_TS_FCT | IOE_ADC_FCT, ENABLE);
@@ -393,8 +399,9 @@ JOYState_TypeDef
 {
   uint8_t tmp = 0;
   /* Read the status of all pins */
-  tmp = (uint32_t)I2C_ReadDeviceRegister(IOE_2_ADDR, IOE_REG_GPIO_MP_STA);
-   
+ // tmp = (uint32_t)I2C_ReadDeviceRegister(IOE_2_ADDR, IOE_REG_GPIO_MP_STA);
+   tmp = (uint32_t)I2C_ReadDeviceRegister(IOE_2_ADDR+1, CAT_9554_INPUT_REG);
+  tmp = tmp &( ~(0x1<<5));
   /* Check the pressed keys */
   if ((tmp & JOY_IO_NONE) == JOY_IO_NONE)
   {
@@ -509,9 +516,13 @@ FlagStatus IOE_GetGITStatus(uint8_t DeviceAddr, uint8_t Global_IT)
   __IO uint8_t tmp = 0;
  
   /* get the Interrupt status */
-  tmp = I2C_ReadDeviceRegister(DeviceAddr, IOE_REG_INT_STA);
+ // tmp = I2C_ReadDeviceRegister(DeviceAddr, IOE_REG_INT_STA);
   
-  if ((tmp & (uint8_t)Global_IT) != 0)
+  tmp = I2C_ReadDeviceRegister(DeviceAddr, CAT_9554_INPUT_REG);
+  tmp = tmp &( ~(0x1<<5));
+ // if ((tmp & (uint8_t)Global_IT) != 0)
+  
+   if (tmp !=0x1f)
   {
     return SET;
   }

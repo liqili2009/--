@@ -1049,6 +1049,9 @@
       <name>$PROJ_DIR$\..\..\STM32F2xx_StdPeriph_Examples\DCMI\Camera\dcmi_ov9655.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\expioint.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\main.c</name>
     </file>
     <file>
