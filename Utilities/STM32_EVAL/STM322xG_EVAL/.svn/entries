@@ -1,0 +1,161 @@
+10
+
+dir
+0
+https://github.com/liqili2009/--.git/trunk/Utilities/STM32_EVAL/STM322xG_EVAL
+https://github.com/liqili2009/--.git
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3406b864-b41c-e261-a51f-ce57b7db7bff
+
+stm322xg_eval_fsmc_sram.h
+file
+
+
+
+add
+
+stm322xg_eval.c
+file
+
+
+
+add
+
+stm322xg_eval_ioe.h
+file
+
+
+
+add
+
+stm322xg_eval_sdio_sd.c
+file
+
+
+
+add
+
+stm322xg_eval.h
+file
+
+
+
+add
+
+stm322xg_eval_i2c_ee.c
+file
+
+
+
+add
+
+stm322xg_eval_sdio_sd.h
+file
+
+
+
+add
+
+stm322xg_eval_fsmc_psram.c
+file
+
+
+
+add
+
+stm322xg_eval_fsmc_onenand.c
+file
+
+
+
+add
+
+Release_Notes.html
+file
+
+
+
+add
+
+stm322xg_eval_i2c_ee.h
+file
+
+
+
+add
+
+stm322xg_eval_audio_codec.c
+file
+
+
+
+add
+
+stm322xg_eval_fsmc_psram.h
+file
+
+
+
+add
+
+stm322xg_eval_fsmc_onenand.h
+file
+
+
+
+add
+
+stm322xg_eval_lcd.c
+file
+
+
+
+add
+
+stm322xg_eval_audio_codec.h
+file
+
+
+
+add
+
+stm322xg_eval_lcd.h
+file
+
+
+
+add
+
+stm322xg_eval_fsmc_sram.c
+file
+
+
+
+add
+
+stm322xg_eval_ioe.c
+file
+
+
+
+add
+

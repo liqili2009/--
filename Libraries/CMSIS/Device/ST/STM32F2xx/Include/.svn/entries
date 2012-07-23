@@ -1,0 +1,42 @@
+10
+
+dir
+0
+https://github.com/liqili2009/--.git/trunk/Libraries/CMSIS/Device/ST/STM32F2xx/Include
+https://github.com/liqili2009/--.git
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3406b864-b41c-e261-a51f-ce57b7db7bff
+
+stm32f2xx.h
+file
+
+
+
+add
+
+system_stm32f2xx.h
+file
+
+
+
+add
+

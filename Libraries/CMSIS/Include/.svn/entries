@@ -1,0 +1,84 @@
+10
+
+dir
+0
+https://github.com/liqili2009/--.git/trunk/Libraries/CMSIS/Include
+https://github.com/liqili2009/--.git
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3406b864-b41c-e261-a51f-ce57b7db7bff
+
+core_cm3.h
+file
+
+
+
+add
+
+core_cm4.h
+file
+
+
+
+add
+
+arm_common_tables.h
+file
+
+
+
+add
+
+core_cmFunc.h
+file
+
+
+
+add
+
+core_cm0.h
+file
+
+
+
+add
+
+core_cm4_simd.h
+file
+
+
+
+add
+
+core_cmInstr.h
+file
+
+
+
+add
+
+arm_math.h
+file
+
+
+
+add
+

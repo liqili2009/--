@@ -1,0 +1,245 @@
+10
+
+dir
+0
+https://github.com/liqili2009/--.git/trunk/Libraries/STM32F2xx_StdPeriph_Driver/src
+https://github.com/liqili2009/--.git
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3406b864-b41c-e261-a51f-ce57b7db7bff
+
+stm32f2xx_syscfg.c
+file
+
+
+
+add
+
+stm32f2xx_usart.c
+file
+
+
+
+add
+
+stm32f2xx_hash_sha1.c
+file
+
+
+
+add
+
+stm32f2xx_can.c
+file
+
+
+
+add
+
+stm32f2xx_dma.c
+file
+
+
+
+add
+
+stm32f2xx_cryp_aes.c
+file
+
+
+
+add
+
+stm32f2xx_rcc.c
+file
+
+
+
+add
+
+stm32f2xx_wwdg.c
+file
+
+
+
+add
+
+stm32f2xx_cryp_des.c
+file
+
+
+
+add
+
+stm32f2xx_exti.c
+file
+
+
+
+add
+
+stm32f2xx_adc.c
+file
+
+
+
+add
+
+stm32f2xx_tim.c
+file
+
+
+
+add
+
+stm32f2xx_cryp_tdes.c
+file
+
+
+
+add
+
+stm32f2xx_flash.c
+file
+
+
+
+add
+
+stm32f2xx_gpio.c
+file
+
+
+
+add
+
+stm32f2xx_sdio.c
+file
+
+
+
+add
+
+stm32f2xx_dbgmcu.c
+file
+
+
+
+add
+
+stm32f2xx_crc.c
+file
+
+
+
+add
+
+stm32f2xx_pwr.c
+file
+
+
+
+add
+
+stm32f2xx_dcmi.c
+file
+
+
+
+add
+
+stm32f2xx_i2c.c
+file
+
+
+
+add
+
+stm32f2xx_cryp.c
+file
+
+
+
+add
+
+stm32f2xx_hash.c
+file
+
+
+
+add
+
+stm32f2xx_rng.c
+file
+
+
+
+add
+
+stm32f2xx_dac.c
+file
+
+
+
+add
+
+stm32f2xx_rtc.c
+file
+
+
+
+add
+
+stm32f2xx_fsmc.c
+file
+
+
+
+add
+
+stm32f2xx_hash_md5.c
+file
+
+
+
+add
+
+stm32f2xx_iwdg.c
+file
+
+
+
+add
+
+stm32f2xx_spi.c
+file
+
+
+
+add
+
+misc.c
+file
+
+
+
+add
+

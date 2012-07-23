@@ -1,0 +1,56 @@
+10
+
+dir
+0
+https://github.com/liqili2009/--.git/trunk/Project/STM32F2xx_StdPeriph_Template/TrueSTUDIO/STM322xG_EVAL
+https://github.com/liqili2009/--.git
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3406b864-b41c-e261-a51f-ce57b7db7bff
+
+stm32_flash.ld
+file
+
+
+
+add
+
+.project
+file
+
+
+
+add
+
+.cproject
+file
+
+
+
+add
+
+.settings
+dir
+
+
+
+add
+

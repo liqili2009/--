@@ -1,0 +1,70 @@
+10
+
+dir
+0
+https://github.com/liqili2009/--.git/trunk/Libraries/CMSIS/Device/ST/STM32F2xx/Source/Templates
+https://github.com/liqili2009/--.git
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3406b864-b41c-e261-a51f-ce57b7db7bff
+
+arm
+dir
+
+
+
+add
+
+TASKING
+dir
+
+
+
+add
+
+system_stm32f2xx.c
+file
+
+
+
+add
+
+gcc_ride7
+dir
+
+
+
+add
+
+TrueSTUDIO
+dir
+
+
+
+add
+
+iar
+dir
+
+
+
+add
+

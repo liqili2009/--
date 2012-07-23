@@ -1,0 +1,98 @@
+10
+
+dir
+0
+https://github.com/liqili2009/--.git/trunk/Project/STM32F2xx_StdPeriph_Template/EWARM
+https://github.com/liqili2009/--.git
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3406b864-b41c-e261-a51f-ce57b7db7bff
+
+Project.ewp
+file
+
+
+
+add
+
+settings
+dir
+
+
+
+add
+
+STM322xG_EVAL
+dir
+
+
+
+add
+
+stm32f2xx_flash_extsram.icf
+file
+
+
+
+add
+
+stm32f2xx_sram.icf
+file
+
+
+
+add
+
+Project.ewd
+file
+
+
+
+add
+
+Project.eww
+file
+
+
+
+add
+
+readme.txt
+file
+
+
+
+add
+
+Project.dep
+file
+
+
+
+add
+
+stm32f2xx_flash.icf
+file
+
+
+
+add
+
