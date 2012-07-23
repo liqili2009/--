@@ -127,7 +127,7 @@ int main(void)
   Delay(200);
 
   /* Initialize demo */
- // ImageFormat = (ImageFormat_TypeDef)Demo_Init();
+  //ImageFormat = (ImageFormat_TypeDef)Demo_Init();
   
  
   ImageFormat = 0x01;
