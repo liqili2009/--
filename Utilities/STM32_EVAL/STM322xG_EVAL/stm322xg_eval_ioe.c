@@ -400,7 +400,7 @@ JOYState_TypeDef
   uint8_t tmp = 0;
   /* Read the status of all pins */
  // tmp = (uint32_t)I2C_ReadDeviceRegister(IOE_2_ADDR, IOE_REG_GPIO_MP_STA);
-   tmp = (uint32_t)I2C_ReadDeviceRegister(IOE_2_ADDR+1, CAT_9554_INPUT_REG);
+   tmp = (uint8_t)I2C_ReadDeviceRegister(IOE_2_ADDR+1, CAT_9554_INPUT_REG);
   tmp = tmp &( ~(0x1<<5));
   /* Check the pressed keys */
   if ((tmp & JOY_IO_NONE) == JOY_IO_NONE)

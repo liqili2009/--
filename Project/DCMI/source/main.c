@@ -30,7 +30,7 @@
 #include "dcmi_ov9655.h"
 #include "dcmi_ov2640.h"
 #include  "lcd_log.h"
-
+#include  "camera_api.h"
 /** @addtogroup stm32f2xx_StdPeriph_Examples
   * @{
   */
@@ -129,7 +129,6 @@ int main(void)
   /* Initialize demo */
   //ImageFormat = (ImageFormat_TypeDef)Demo_Init();
   
- 
   ImageFormat = 0x01;
 
   /* Configure the Camera module mounted on STM322xG-EVAL board */

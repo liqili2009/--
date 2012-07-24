@@ -159,9 +159,9 @@ void EXTI2_IRQHandler(void)
 {
   static JOY_State_TypeDef JoyState = JOY_NONE;
 
-  if(EXTI_GetITStatus(IOE_IT_EXTI_LINE) != RESET)
+  //if(EXTI_GetITStatus(IOE_IT_EXTI_LINE) != RESET)
   {
-    if(IOE_GetGITStatus(IOE_2_ADDR, IOE_GIT_GPIO))
+    //if(IOE_GetGITStatus(IOE_2_ADDR, IOE_GIT_GPIO))
     {
       /* Get the Joystick State */
       JoyState = IOE_JoyStickGetState();
@@ -169,16 +169,19 @@ void EXTI2_IRQHandler(void)
       switch (JoyState)
       {
         case JOY_NONE:
+          
         break;
         
         case JOY_UP:
         {
-          PressedKey =  UP;     
-          break;        
+          PressedKey =  UP;  
+              break;        
         } 
         case JOY_DOWN:
         {
           PressedKey =  DOWN;
+           LCD_Clear(Black);
+           
           break;    
         }
         case JOY_RIGHT :
@@ -189,11 +192,16 @@ void EXTI2_IRQHandler(void)
         case JOY_LEFT:
         {
           PressedKey =  JOY_NONE;
+           DCMI_Cmd(DISABLE); 
           break;    
         }         
         case JOY_CENTER:
         {
           PressedKey =  SEL;
+         
+	DCMI_Cmd(ENABLE);   
+		    
+           
           break;    
         }
         default:
@@ -205,8 +213,8 @@ void EXTI2_IRQHandler(void)
       } 
     }
     /* Clear the interrupt pending bits */    
-    IOE_ClearGITPending(IOE_2_ADDR, IOE_GIT_GPIO);
-    IOE_ClearIOITPending(IOE_2_ADDR, IOE_JOY_IT);  
+    //IOE_ClearGITPending(IOE_2_ADDR, IOE_GIT_GPIO);
+    //IOE_ClearIOITPending(IOE_2_ADDR, IOE_JOY_IT);  
   }
   /* Clear interrupt pending bit */
   EXTI_ClearITPendingBit(IOE_IT_EXTI_LINE);
