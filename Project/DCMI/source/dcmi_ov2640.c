@@ -1086,6 +1086,7 @@ void OV2640_HW_Init(void)
   I2C_InitStruct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
   I2C_InitStruct.I2C_ClockSpeed = 30000;
   
+  
   /* Initialize the I2C peripheral w/ selected parameters */
   I2C_Init(I2C1, &I2C_InitStruct);
 }

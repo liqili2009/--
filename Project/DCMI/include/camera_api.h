@@ -46,7 +46,8 @@
 typedef enum   
 {
   OV9655_CAMERA            =   0x00,	 /* Use OV9655 Camera */
-  OV2640_CAMERA            =   0x01      /* Use OV2640 Camera */
+  OV2640_CAMERA            =   0x01,      /* Use OV2640 Camera */
+   OV7670_CAMERA            =   0x03
 }Camera_TypeDef;
 
 /* Image Sizes enumeration */

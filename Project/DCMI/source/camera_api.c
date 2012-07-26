@@ -230,6 +230,39 @@ void Camera_Config(void)
         break; 
       }
     }
+   
+    }
+  else if(Camera == OV7670_CAMERA)
+  {
+    switch (ImageFormat)
+    {
+      case BMP_QQVGA:
+      {
+        /* Configure the OV9655 camera and set the QQVGA mode */
+        OV9655_HW_Init();
+		
+        OV9655_Init(BMP_QQVGA);
+        OV9655_QQVGAConfig();
+        break;
+      }
+      case BMP_QVGA:
+      {
+        /* Configure the OV9655 camera and set set the QVGA mode */
+        OV9655_HW_Init();
+		OV9655_Init(BMP_QVGA);
+        DCMI_OV7670_Init();
+        
+        break;
+      }
+      default:
+      {
+        /* Configure the OV9655 camera and set the QQVGA mode */
+        OV9655_HW_Init();
+        OV9655_Init(BMP_QQVGA);
+        OV9655_QQVGAConfig();
+        break;
+      } 
+  }
   }
 }
 

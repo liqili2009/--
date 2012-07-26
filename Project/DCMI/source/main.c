@@ -29,6 +29,7 @@
 #include "main.h"
 #include "dcmi_ov9655.h"
 #include "dcmi_ov2640.h"
+#include "dcmi_ov7670.h"
 #include  "lcd_log.h"
 #include  "camera_api.h"
 /** @addtogroup stm32f2xx_StdPeriph_Examples
@@ -46,6 +47,8 @@
 RCC_ClocksTypeDef RCC_Clocks;
 OV9655_IDTypeDef OV9655_Camera_ID;
 OV2640_IDTypeDef OV2640_Camera_ID;
+OV7670_IDTypeDef OV7670_Camera_ID;
+
 __IO uint16_t ADCVal = 0;
 uint8_t buffer[40];
 extern Camera_TypeDef Camera;
@@ -99,8 +102,9 @@ int main(void)
   OV2640_HW_Init();
   IOE_Config();
   /* Read the OV9655/OV2640 Manufacturer identifier */
-  OV9655_ReadID(&OV9655_Camera_ID);
-  OV2640_ReadID(&OV2640_Camera_ID);
+ OV9655_ReadID(&OV9655_Camera_ID);
+  //OV2640_ReadID(&OV2640_Camera_ID);
+  //OV7670_ReadID(&OV7670_Camera_ID);
 
   if(OV9655_Camera_ID.PID  == 0x96)
   {
@@ -112,6 +116,12 @@ int main(void)
   {
     Camera = OV2640_CAMERA;
     sprintf((char*)buffer, "OV2640 Camera ID 0x%x", OV2640_Camera_ID.PIDH);
+    ValueMax = 2;
+  }
+  else if(OV7670_Camera_ID.PID  == 0x76)
+  {
+    Camera = OV7670_CAMERA;
+    sprintf((char*)buffer, "ov7670 Camera ID 0x%x", OV7670_Camera_ID.PID);
     ValueMax = 2;
   }
   else

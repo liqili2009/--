@@ -249,7 +249,7 @@ typedef enum
 /** 
   * @brief  The 7 bits IO Expanders adresses and chip IDs  
   */ 
-#define IOE_1_ADDR                0x42// 0x82    
+#define IOE_1_ADDR                0x40// 0x82    
 #define IOE_2_ADDR                0x46// 0x88    
 #define STMPE811_ID                0x0811
 
