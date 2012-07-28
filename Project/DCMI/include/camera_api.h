@@ -58,7 +58,9 @@ typedef enum
   JPEG_160x120          =   0x02,	    /* JPEG Image 160x120 Size */
   JPEG_176x144          =   0x03,	    /* JPEG Image 176x144 Size */
   JPEG_320x240          =   0x04,	    /* JPEG Image 320x240 Size */
-  JPEG_352x288          =   0x05	    /* JPEG Image 352x288 Size */
+  JPEG_352x288          =   0x05,	    /* JPEG Image 352x288 Size */
+  BMP_VGA               =   0x06,   /*640 x 480*/
+  BMP_SXGA              =   0x07   /*1280 x 1024*/
 }ImageFormat_TypeDef;
 
 /* Exported macro ------------------------------------------------------------*/
