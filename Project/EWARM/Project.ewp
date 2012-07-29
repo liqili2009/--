@@ -296,6 +296,7 @@
         <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\DCMI\include</state>
+          <state>$PROJ_DIR$\..\NAND\include</state>
           <state>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F2xx\Include</state>
           <state>$PROJ_DIR$\..\..\Libraries\STM32F2xx_StdPeriph_Driver\inc</state>
           <state>$PROJ_DIR$\..\..\Utilities\STM32_EVAL\Common</state>
@@ -1055,13 +1056,25 @@
       <name>$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\NAND\source\diskio.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\DCMI\source\expioint.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\NAND\source\ff.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\NAND\source\fsmc_nand.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\DCMI\source\main.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\DCMI\source\stm32f2xx_it.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\NAND\source\test.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\DCMI\source\test_fsmc_sram.c</name>

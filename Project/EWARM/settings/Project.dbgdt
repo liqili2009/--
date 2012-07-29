@@ -19,7 +19,7 @@
           
           
           
-        <Column0>195</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>178</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <Disassembly>
         <col-names>
@@ -44,7 +44,7 @@
       
       
       
-    <Wnd0>
+    <Wnd2>
         <Tabs>
           <Tab>
             <Identity>TabID-26907-18059</Identity>
@@ -66,7 +66,7 @@
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+      <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
         <Tabs>
           <Tab>
             <Identity>TabID-4887-18062</Identity>
@@ -74,24 +74,24 @@
             <Factory>Workspace</Factory>
             <Session>
               
-            <NodeDict><ExpandedNode>Project</ExpandedNode></NodeDict></Session>
+            <NodeDict><ExpandedNode>Project</ExpandedNode><ExpandedNode>Project/User</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+      <SelectedTab>0</SelectedTab></Wnd3></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_cryp_des.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Utilities\STM32_EVAL\STM322xG_EVAL\stm322xg_eval.h</Filename><XPos>0</XPos><YPos>56</YPos><SelStart>2200</SelStart><SelEnd>2200</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\bmpsav.c</Filename><XPos>0</XPos><YPos>4</YPos><SelStart>515</SelStart><SelEnd>515</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\include\bmpsav.h</Filename><XPos>0</XPos><YPos>14</YPos><SelStart>719</SelStart><SelEnd>719</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\camera_api.c</Filename><XPos>0</XPos><YPos>343</YPos><SelStart>8833</SelStart><SelEnd>8833</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\stm32f2xx_it.c</Filename><XPos>0</XPos><YPos>187</YPos><SelStart>4749</SelStart><SelEnd>4749</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Utilities\STM32_EVAL\STM322xG_EVAL\stm322xg_eval.c</Filename><XPos>0</XPos><YPos>171</YPos><SelStart>5625</SelStart><SelEnd>5625</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_exti.c</Filename><XPos>0</XPos><YPos>132</YPos><SelStart>5798</SelStart><SelEnd>5798</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\main.c</Filename><XPos>0</XPos><YPos>92</YPos><SelStart>3523</SelStart><SelEnd>3523</SelEnd></Tab><ActiveTab>8</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\dcmi_ov7670.c</Filename><XPos>0</XPos><YPos>278</YPos><SelStart>6189</SelStart><SelEnd>6189</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\dcmi_ov9655.c</Filename><XPos>0</XPos><YPos>660</YPos><SelStart>16578</SelStart><SelEnd>16604</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Utilities\STM32_EVAL\STM322xG_EVAL\stm322xg_eval_ioe.c</Filename><XPos>0</XPos><YPos>147</YPos><SelStart>4298</SelStart><SelEnd>4321</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Pane/><Sizes><Pane><X>702283</X><Y>1000000</Y></Pane><Pane><X>297716</X><Y>1000000</Y></Pane></Sizes><SplitMode>4</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_cryp_des.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Utilities\STM32_EVAL\STM322xG_EVAL\stm322xg_eval.h</Filename><XPos>0</XPos><YPos>56</YPos><SelStart>2200</SelStart><SelEnd>2200</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\bmpsav.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>176</SelStart><SelEnd>176</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\include\bmpsav.h</Filename><XPos>0</XPos><YPos>14</YPos><SelStart>719</SelStart><SelEnd>719</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Utilities\STM32_EVAL\STM322xG_EVAL\stm322xg_eval.c</Filename><XPos>0</XPos><YPos>23</YPos><SelStart>5625</SelStart><SelEnd>5625</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_exti.c</Filename><XPos>0</XPos><YPos>52</YPos><SelStart>6116</SelStart><SelEnd>6116</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\include\dcmi_ov9655.h</Filename><XPos>0</XPos><YPos>14</YPos><SelStart>6932</SelStart><SelEnd>6932</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_fsmc.c</Filename><XPos>0</XPos><YPos>6</YPos><SelStart>36694</SelStart><SelEnd>36694</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Libraries\STM32F2xx_StdPeriph_Driver\inc\stm32f2xx_fsmc.h</Filename><XPos>0</XPos><YPos>15</YPos><SelStart>13515</SelStart><SelEnd>13515</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Utilities\STM32_EVAL\STM322xG_EVAL\stm322xg_eval_fsmc_sram.c</Filename><XPos>0</XPos><YPos>55</YPos><SelStart>1966</SelStart><SelEnd>2016</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\main.c</Filename><XPos>0</XPos><YPos>89</YPos><SelStart>3288</SelStart><SelEnd>3288</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\stm32f2xx_it.c</Filename><XPos>0</XPos><YPos>12</YPos><SelStart>5576</SelStart><SelEnd>5576</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\NAND\include\fsmc_nand.h</Filename><XPos>0</XPos><YPos>90</YPos><SelStart>4025</SelStart><SelEnd>4025</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_adc.c</Filename><XPos>0</XPos><YPos>90</YPos><SelStart>5123</SelStart><SelEnd>5123</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\NAND\source\fsmc_nand.c</Filename><XPos>0</XPos><YPos>1095</YPos><SelStart>35464</SelStart><SelEnd>35464</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\NAND\source\diskio.c</Filename><XPos>0</XPos><YPos>105</YPos><SelStart>2247</SelStart><SelEnd>2247</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\NAND\source\test.c</Filename><XPos>0</XPos><YPos>18</YPos><SelStart>912</SelStart><SelEnd>912</SelEnd></Tab><ActiveTab>16</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\DCMI\source\test_fsmc_sram.c</Filename><XPos>0</XPos><YPos>31</YPos><SelStart>1778</SelStart><SelEnd>1812</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Utilities\STM32_EVAL\STM322xG_EVAL\stm322xg_eval_lcd.c</Filename><XPos>0</XPos><YPos>15</YPos><SelStart>1373</SelStart><SelEnd>1403</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Pane/><Sizes><Pane><X>702283</X><Y>1000000</Y></Pane><Pane><X>297716</X><Y>1000000</Y></Pane></Sizes><SplitMode>4</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-01d02280><key>iaridepm.enu1</key></Toolbar-01d02280></Sizes></Row0><Row1><Sizes><Toolbar-01d17fe8><key>debuggergui.enu1</key></Toolbar-01d17fe8></Sizes></Row1></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>367</Bottom><Right>269</Right><x>-2</x><y>-2</y><xscreen>271</xscreen><yscreen>292</yscreen><sizeHorzCX>198389</sizeHorzCX><sizeHorzCY>402204</sizeHorzCY><sizeVertCX>198389</sizeVertCX><sizeVertCY>508264</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>290</Bottom><Right>1368</Right><x>-2</x><y>-2</y><xscreen>1370</xscreen><yscreen>292</yscreen><sizeHorzCX>1002928</sizeHorzCX><sizeHorzCY>402204</sizeHorzCY><sizeVertCX>198389</sizeVertCX><sizeVertCY>402204</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-00e62280><key>iaridepm.enu1</key></Toolbar-00e62280></Sizes></Row0><Row1><Sizes><Toolbar-00ec5508><key>debuggergui.enu1</key></Toolbar-00ec5508></Sizes></Row1></Top><Left><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>367</Bottom><Right>269</Right><x>-2</x><y>-2</y><xscreen>271</xscreen><yscreen>292</yscreen><sizeHorzCX>198389</sizeHorzCX><sizeHorzCY>402204</sizeHorzCY><sizeVertCX>198389</sizeVertCX><sizeVertCY>508264</sizeVertCY></Rect></Wnd3></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>290</Bottom><Right>1368</Right><x>-2</x><y>-2</y><xscreen>1370</xscreen><yscreen>292</yscreen><sizeHorzCX>1002928</sizeHorzCX><sizeHorzCY>402204</sizeHorzCY><sizeVertCX>198389</sizeVertCX><sizeVertCY>402204</sizeVertCY></Rect></Wnd2></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Project>
 

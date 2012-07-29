@@ -32,6 +32,7 @@
 #include "dcmi_ov7670.h"
 #include  "lcd_log.h"
 #include  "camera_api.h"
+#include  "test.h"
 /** @addtogroup stm32f2xx_StdPeriph_Examples
   * @{
   */
@@ -99,9 +100,11 @@ int main(void)
   ADC_Config();
   
   
+  test_nandflsh_write_and_read();
+  
     /* Configure FSMC Bank 1 NOR/SRAM2  */
   //SRAM_Init();
-  test_sram();
+  //test_sram();
    
   
   /* Initializes the DCMI interface (I2C and GPIO) used to configure the camera */
