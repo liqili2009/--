@@ -31,6 +31,7 @@
 #include "stm32f2xx_it.h"
 #include "main.h"
 #include "dcmi_ov9655.h"
+#include "camera_api.h"
 /** @addtogroup STM32F2xx_StdPeriph_Examples
   * @{
   */
@@ -45,7 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 extern __IO uint32_t PressedKey;
 extern ImageFormat_TypeDef ImageFormat;
-
+__IO uint8_t  intok = 0;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -153,24 +154,9 @@ void SysTick_Handler(void)
 
 void DCMI_IRQHandler(void)
 {
- 
-
-
-   //等待DMA传送完成后进行图像处理
-   
-   //图像处理部分
-
-        OV9655_Init(BMP_QVGA);
-        OV9655_QVGAConfig();
-        DCMI_Cmd(ENABLE);  
-         DMA_Cmd(DMA2_Stream1, ENABLE);
-        /* Insert 100ms delay: wait 100ms */
-        Delay(200); 
-
-        DCMI_CaptureCmd(ENABLE); 
-        
         DCMI_ClearITPendingBit(DCMI_IT_FRAME);
 
+        intok = 1;
 }
 
 
@@ -227,19 +213,9 @@ void EXTI2_IRQHandler(void)
           
           
           DMA_Cmd(DMA2_Stream1, DISABLE); 
-          DCMI_Cmd(DISABLE); 
-          OV9655_SinCapture(ImageFormat);
-          DCMI_ITConfig(DCMI_IT_FRAME ,ENABLE);
-              /* Enable DMA2 stream 1 and DCMI interface then start image capture */
-          DMA_Cmd(DMA2_Stream1, ENABLE); 
-          DCMI_Cmd(ENABLE); 
-
-  /* Insert 100ms delay: wait 100ms */
-          Delay(200); 
-
-        DCMI_CaptureCmd(ENABLE); 
-
-		    
+          DCMI_Cmd(DISABLE);
+	  DCMI_CaptureCmd(DISABLE);
+            
            
           break;    
         }

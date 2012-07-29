@@ -33,6 +33,7 @@
 #include  "lcd_log.h"
 #include  "camera_api.h"
 #include  "test.h"
+
 /** @addtogroup stm32f2xx_StdPeriph_Examples
   * @{
   */
@@ -57,6 +58,9 @@ extern ImageFormat_TypeDef ImageFormat;
 extern __IO uint8_t ValueMax;
 extern const uint8_t *ImageForematArray[];
 extern int test_sram(void);
+extern __IO uint32_t PressedKey;
+extern __IO uint8_t intok;
+
 /* Private function prototypes -----------------------------------------------*/
 void ADC_Config(void);
 
@@ -100,9 +104,11 @@ int main(void)
   ADC_Config();
   
   
-  test_nandflsh_write_and_read();
+  //test_nandflsh_write_and_read();
   
     /* Configure FSMC Bank 1 NOR/SRAM2  */
+  
+  
   //SRAM_Init();
   //test_sram();
    
@@ -188,10 +194,46 @@ int main(void)
   while(1)
   {
     /* Blink LD1, LED2 and LED4 */
-    STM_EVAL_LEDToggle(LED1);
+   /* STM_EVAL_LEDToggle(LED1);
     STM_EVAL_LEDToggle(LED2);
     STM_EVAL_LEDToggle(LED3);
-    STM_EVAL_LEDToggle(LED4);
+    STM_EVAL_LEDToggle(LED4);*/
+    
+    
+    if(PressedKey ==  SEL)
+    {
+          PressedKey = 0;
+          LCD_Clear(Black);
+          LCD_SetTextColor(White);
+          OV9655_HW_Init();
+          OV9655_SinCapture(ImageFormat);
+          DCMI_NVIC_Config();
+          DCMI_ITConfig(DCMI_IT_FRAME ,ENABLE);
+              /* Enable DMA2 stream 1 and DCMI interface then start image capture */
+          
+          //DMA_Cmd(DMA2_Stream1, ENABLE); 
+          DCMI_Cmd(ENABLE); 
+          Delay(200); 
+           LCD_DisplayStringLine(LINE(4), "Camera set OK..               ");
+          DCMI_CaptureCmd(ENABLE); 
+    }
+    
+    if(intok == 1)
+    {
+      //等待DMA传送完成后进行图像处理
+   
+      //图像处理部分
+   
+        intok = 0;
+        OV9655_Init(BMP_QVGA);
+        OV9655_QVGAConfig();
+        DCMI_Cmd(ENABLE);  
+        DMA_Cmd(DMA2_Stream1, ENABLE);
+        /* Insert 100ms delay: wait 100ms */
+       // Delay(200); 
+
+        DCMI_CaptureCmd(ENABLE); 
+    }
 
     /* Insert 100ms delay */
     Delay(10);

@@ -602,6 +602,8 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
   DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
   
   
+ 
+
 
     /* DCMI configuration */
       DCMI_Init(&DCMI_InitStructure);
@@ -609,9 +611,9 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
       /* DMA2 IRQ channel Configuration */
       DMA_Init(DMA2_Stream1, &DMA_InitStructure);
       
-     // DMA_ITConfig(DMA2_Stream1,DMA_IT_TC,ENABLE);
-    
-      
+   
+       
+       
   switch(ImageFormat)
   {
     case BMP_QQVGA:
@@ -674,7 +676,8 @@ void OV9655_QVGAConfig(void)
 {
   uint32_t i;
 
-  OV9655_Reset();
+  //OV9655_Reset();
+  OV9655_WriteReg(OV9655_COM7, 0x80);
   Delay(200);
 
   /* Initialize OV9655 */

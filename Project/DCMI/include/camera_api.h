@@ -72,7 +72,7 @@ void OV2640_SpecialEffects(uint8_t index);
 void Delay(uint32_t nTime);
 void TimingDelay_Decrement(void);
 void Demo_LCD_Clear(void);
-
+void DCMI_NVIC_Config(void);
 #endif /* __CAMERA_API_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

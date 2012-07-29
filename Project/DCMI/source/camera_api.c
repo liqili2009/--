@@ -342,6 +342,17 @@ void Demo_LCD_Clear(void)
   }
 }
 
+void DCMI_NVIC_Config(void)
+{
+  	NVIC_InitTypeDef NVIC_InitStructure;
+  	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+  	NVIC_InitStructure.NVIC_IRQChannel = DCMI_IRQn;
+  	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+  	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  	NVIC_Init(&NVIC_InitStructure);
+}
+
 /**
   * @brief  Inserts a delay time.
   * @param  nTime: specifies the delay time length, in milliseconds
