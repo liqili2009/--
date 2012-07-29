@@ -1063,6 +1063,9 @@
     <file>
       <name>$PROJ_DIR$\..\DCMI\source\stm32f2xx_it.c</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\..\DCMI\source\test_fsmc_sram.c</name>
+    </file>
   </group>
 </project>
 

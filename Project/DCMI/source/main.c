@@ -55,7 +55,7 @@ extern Camera_TypeDef Camera;
 extern ImageFormat_TypeDef ImageFormat;
 extern __IO uint8_t ValueMax;
 extern const uint8_t *ImageForematArray[];
-
+extern int test_sram(void);
 /* Private function prototypes -----------------------------------------------*/
 void ADC_Config(void);
 
@@ -97,7 +97,13 @@ int main(void)
 
   /* ADC configuration */
   ADC_Config();
-
+  
+  
+    /* Configure FSMC Bank 1 NOR/SRAM2  */
+  //SRAM_Init();
+  test_sram();
+   
+  
   /* Initializes the DCMI interface (I2C and GPIO) used to configure the camera */
   OV2640_HW_Init();
   IOE_Config();
@@ -253,6 +259,8 @@ void ADC_Config(void)
   /* ADC3 regular Software Start Conv */ 
   ADC_SoftwareStartConv(ADC3);
 }
+
+
 
 #ifdef  USE_FULL_ASSERT
 /**

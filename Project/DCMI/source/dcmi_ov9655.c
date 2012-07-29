@@ -41,7 +41,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define  TIMEOUT  2
-
+#define Bank1_SRAM2_ADDR  ((uint32_t)0x64000000)  
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* QQVGA 160x120 */
@@ -583,15 +583,15 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
   
   /* DMA2 Stream1 Configuration */
- /*DMA_DeInit(DMA2_Stream1);
+ DMA_DeInit(DMA2_Stream1);
 
   DMA_InitStructure.DMA_Channel = DMA_Channel_1;  
   DMA_InitStructure.DMA_PeripheralBaseAddr = DCMI_DR_ADDRESS;	
-  DMA_InitStructure.DMA_Memory0BaseAddr = FSMC_LCD_ADDRESS;
+  DMA_InitStructure.DMA_Memory0BaseAddr = Bank1_SRAM2_ADDR;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
   DMA_InitStructure.DMA_BufferSize = 1;
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Disable;
+  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
@@ -599,12 +599,19 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
   DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Enable;
   DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
   DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
-  DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;*/
+  DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+  
+  
+
     /* DCMI configuration */
       DCMI_Init(&DCMI_InitStructure);
 
       /* DMA2 IRQ channel Configuration */
-     // DMA_Init(DMA2_Stream1, &DMA_InitStructure);
+      DMA_Init(DMA2_Stream1, &DMA_InitStructure);
+      
+     // DMA_ITConfig(DMA2_Stream1,DMA_IT_TC,ENABLE);
+    
+      
   switch(ImageFormat)
   {
     case BMP_QQVGA:
@@ -634,6 +641,8 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
    
       break;
     }
+
+
   }    
 }
 /**

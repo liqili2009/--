@@ -163,7 +163,7 @@ void DCMI_IRQHandler(void)
         OV9655_Init(BMP_QVGA);
         OV9655_QVGAConfig();
         DCMI_Cmd(ENABLE);  
-        DMA_Cmd(ENABLE);  
+         DMA_Cmd(DMA2_Stream1, ENABLE);
         /* Insert 100ms delay: wait 100ms */
         Delay(200); 
 
@@ -172,6 +172,9 @@ void DCMI_IRQHandler(void)
         DCMI_ClearITPendingBit(DCMI_IT_FRAME);
 
 }
+
+
+
 
 /**
   * @brief  This function handles External line 10 interrupt request.
@@ -221,10 +224,14 @@ void EXTI2_IRQHandler(void)
         case JOY_CENTER:
         {
           PressedKey =  SEL;
-            OV9655_SinCapture(ImageFormat);
-            DCMI_ITConfig(DCMI_IT_FRAME ,ENABLE);
+          
+          
+          DMA_Cmd(DMA2_Stream1, DISABLE); 
+          DCMI_Cmd(DISABLE); 
+          OV9655_SinCapture(ImageFormat);
+          DCMI_ITConfig(DCMI_IT_FRAME ,ENABLE);
               /* Enable DMA2 stream 1 and DCMI interface then start image capture */
-          // DMA_Cmd(DMA2_Stream1, ENABLE); 
+          DMA_Cmd(DMA2_Stream1, ENABLE); 
           DCMI_Cmd(ENABLE); 
 
   /* Insert 100ms delay: wait 100ms */
