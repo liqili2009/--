@@ -205,7 +205,7 @@ int main(void)
           PressedKey = 0;
           LCD_Clear(Black);
           LCD_SetTextColor(White);
-          OV9655_HW_Init();
+          //OV9655_HW_Init();
           OV9655_SinCapture(ImageFormat);
           DCMI_NVIC_Config();
           DCMI_ITConfig(DCMI_IT_FRAME ,ENABLE);
@@ -223,15 +223,17 @@ int main(void)
       //等待DMA传送完成后进行图像处理
    
       //图像处理部分
-   
+        LCD_Clear(Black);
+        LCD_SetTextColor(White);
+        LCD_DisplayStringLine(LINE(4), "Camera  INT1..               ");
         intok = 0;
         OV9655_Init(BMP_QVGA);
         OV9655_QVGAConfig();
         DCMI_Cmd(ENABLE);  
         DMA_Cmd(DMA2_Stream1, ENABLE);
         /* Insert 100ms delay: wait 100ms */
-       // Delay(200); 
-
+        Delay(200); 
+        LCD_DisplayStringLine(LINE(4), "Camera  INT2..               ");
         DCMI_CaptureCmd(ENABLE); 
     }
 

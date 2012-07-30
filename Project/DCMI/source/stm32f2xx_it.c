@@ -154,9 +154,14 @@ void SysTick_Handler(void)
 
 void DCMI_IRQHandler(void)
 {
-        DCMI_ClearITPendingBit(DCMI_IT_FRAME);
+     
 
         intok = 1;
+        DCMI_ITConfig(DCMI_IT_FRAME ,DISABLE);
+        DCMI_CaptureCmd(DISABLE); 
+        DCMI_ClearITPendingBit(DCMI_IT_FRAME);
+          
+
 }
 
 
@@ -213,7 +218,7 @@ void EXTI2_IRQHandler(void)
           
           
           DMA_Cmd(DMA2_Stream1, DISABLE); 
-          DCMI_Cmd(DISABLE);
+         // DCMI_Cmd(DISABLE);
 	  DCMI_CaptureCmd(DISABLE);
             
            
