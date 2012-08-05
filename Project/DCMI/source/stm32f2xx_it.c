@@ -192,12 +192,17 @@ void EXTI2_IRQHandler(void)
         case JOY_UP:
         {
           PressedKey =  UP;  
+          DMA_Cmd(DMA2_Stream1, DISABLE); 
+         // DCMI_Cmd(DISABLE);
+	  DCMI_CaptureCmd(DISABLE);
               break;        
         } 
         case JOY_DOWN:
         {
           PressedKey =  DOWN;
-           LCD_Clear(Black);
+                   DMA_Cmd(DMA2_Stream1, DISABLE); 
+         // DCMI_Cmd(DISABLE);
+	  DCMI_CaptureCmd(DISABLE);
            
           break;    
         }

@@ -395,8 +395,8 @@ typedef enum
 #define JOY_IO_SEL                   IO_Pin_0
 #define JOY_IO_DOWN                  IO_Pin_1
 #define JOY_IO_LEFT                  IO_Pin_2
-#define JOY_IO_RIGHT                 IO_Pin_3
-#define JOY_IO_UP                    IO_Pin_4
+#define JOY_IO_UP                    IO_Pin_3
+#define JOY_IO_RIGHT                 IO_Pin_4
 #define JOY_IO_NONE                  JOY_IO_PINS
 #define JOY_IO_PINS                  (uint32_t)(IO_Pin_0 | IO_Pin_1 | IO_Pin_2 | IO_Pin_3 | IO_Pin_4)
 

@@ -40,8 +40,8 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define BUFFER_SIZE        0x100
-#define WRITE_READ_ADDR    0x800
-
+//#define WRITE_READ_ADDR    0x800
+#define WRITE_READ_ADDR    0x262145
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 uint16_t TxBuffer[BUFFER_SIZE], RxBuffer[BUFFER_SIZE];
@@ -87,7 +87,7 @@ int test_sram(void)
   {
     if (RxBuffer[Index] != TxBuffer[Index])
     {
-      WriteReadStatus++;
+      WriteReadStatus ++;
     }
   }	
 

@@ -1274,7 +1274,7 @@ void OV2640_JPEGConfig(ImageFormat_TypeDef ImageFormat)
 
   switch(ImageFormat)
   {
-    case JPEG_160x120:
+    /*case JPEG_160x120:
     {
       for(i=0; i<(sizeof(OV2640_160x120_JPEG)/2); i++)
       {
@@ -1305,7 +1305,7 @@ void OV2640_JPEGConfig(ImageFormat_TypeDef ImageFormat)
         OV2640_WriteReg(OV2640_352x288_JPEG[i][0], OV2640_352x288_JPEG[i][1]);
       }
       break;
-    }
+    }*/
     default:
     {
       for(i=0; i<(sizeof(OV2640_160x120_JPEG)/2); i++)

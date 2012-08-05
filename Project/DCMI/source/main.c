@@ -60,6 +60,7 @@ extern const uint8_t *ImageForematArray[];
 extern int test_sram(void);
 extern __IO uint32_t PressedKey;
 extern __IO uint8_t intok;
+ __IO uint8_t m = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 void ADC_Config(void);
@@ -110,7 +111,7 @@ int main(void)
   
   
   //SRAM_Init();
-  //test_sram();
+  test_sram();
    
   
   /* Initializes the DCMI interface (I2C and GPIO) used to configure the camera */
@@ -200,22 +201,58 @@ int main(void)
     STM_EVAL_LEDToggle(LED4);*/
     
     
-    if(PressedKey ==  SEL)
+    switch(PressedKey)
     {
-          PressedKey = 0;
-          LCD_Clear(Black);
-          LCD_SetTextColor(White);
-          //OV9655_HW_Init();
-          OV9655_SinCapture(ImageFormat);
-          DCMI_NVIC_Config();
-          DCMI_ITConfig(DCMI_IT_FRAME ,ENABLE);
-              /* Enable DMA2 stream 1 and DCMI interface then start image capture */
+        case SEL:
+          {
+              PressedKey = 0;
+              LCD_Clear(Black);
+              LCD_SetTextColor(White);
+              OV9655_SinCapture(ImageFormat);
+              DCMI_NVIC_Config();
+              DCMI_ITConfig(DCMI_IT_FRAME ,ENABLE);
+               
+                DMA_Cmd(DMA2_Stream1, ENABLE); 
+               DCMI_Cmd(ENABLE); 
+                DCMI_CaptureCmd(ENABLE); 
+             
+              break;
+          }
+        case UP:
+          {
+              PressedKey = 0;
+              if(ImageFormat+m<3)
+              {
+                ++m;
+               
+              }
+               OV9655_ZoomPreview(ImageFormat,m);
+              DMA_Cmd(DMA2_Stream1, ENABLE); 
+             
+               DCMI_Cmd(ENABLE); 
+               DCMI_CaptureCmd(ENABLE); 
+              break;
+          }
+        case DOWN:
+          {
+            PressedKey = 0;
+            if(m>0)
+            {
+              --m;
+             
+            }
+             OV9655_ZoomPreview(ImageFormat,m);
+             LCD_Clear(Black);
+            DMA_Cmd(DMA2_Stream1, ENABLE); 
+             DCMI_Cmd(ENABLE); 
+                   
+             DCMI_CaptureCmd(ENABLE); 
+            break;
+          }
+        default:
+          break;
           
-          //DMA_Cmd(DMA2_Stream1, ENABLE); 
-          DCMI_Cmd(ENABLE); 
-          Delay(200); 
-           LCD_DisplayStringLine(LINE(4), "Camera set OK..               ");
-          DCMI_CaptureCmd(ENABLE); 
+         
     }
     
     if(intok == 1)
@@ -224,36 +261,31 @@ int main(void)
    
       //图像处理部分
         LCD_Clear(Black);
-        LCD_SetTextColor(White);
-        LCD_DisplayStringLine(LINE(4), "Camera  INT1..               ");
+   
         intok = 0;
         OV9655_Init(BMP_QVGA);
         OV9655_QVGAConfig();
         DCMI_Cmd(ENABLE);  
         DMA_Cmd(DMA2_Stream1, ENABLE);
-        /* Insert 100ms delay: wait 100ms */
-        Delay(200); 
-        LCD_DisplayStringLine(LINE(4), "Camera  INT2..               ");
+  
         DCMI_CaptureCmd(ENABLE); 
     }
 
-    /* Insert 100ms delay */
-    Delay(10);
 
     /* Get the last ADC3 conversion result data */
-    ADCVal = ADC_GetConversionValue(ADC3);
+   // ADCVal = ADC_GetConversionValue(ADC3);
     
     /* Change the Brightness of camera using "Brightness Adjustment" register:
        For OV9655 camera Brightness can be positively (0x01 ~ 0x7F) and negatively (0x80 ~ 0xFF) adjusted
        For OV2640 camera Brightness can be positively (0x20 ~ 0x40) and negatively (0 ~ 0x20) adjusted */
-    if(Camera == OV9655_CAMERA)
+    /*if(Camera == OV9655_CAMERA)
     {
       OV9655_BrightnessConfig(ADCVal);
     }
     if(Camera == OV2640_CAMERA)
     {
       OV2640_BrightnessConfig(ADCVal/2);
-    }
+    }*/
   }
 }
 

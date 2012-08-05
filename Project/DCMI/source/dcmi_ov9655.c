@@ -647,6 +647,79 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
 
   }    
 }
+
+/**
+  * @brief  Configures the DCMI/DMA to capture image from the OV9655 camera.
+  * @param  ImageFormat: Image format BMP or JPEG
+  * @param  BMPImageSize: BMP Image size  
+  * @retval None
+  */
+void OV9655_ZoomPreview(ImageFormat_TypeDef ImageFormat,uint8_t m)
+{	
+ 	uint8_t temp = ImageFormat+m;
+          if(temp <=3 && temp>=1)
+ 		{
+  			OV9655_Init(ImageFormat);
+                        DCMI_CROPInitTypeDef DCMI_CROPInitStructure;
+			switch(temp)
+			  {
+			    case BMP_QQVGA:
+			    {
+			      	OV9655_QQVGAConfig();
+				 	
+			      break;
+			    }
+			    case BMP_QVGA:
+			    {
+			    	 OV9655_QVGAConfig();
+                                 DCMI_CROPCmd(DISABLE);
+					
+			      break;
+			    }
+			   
+			    case BMP_VGA:
+			    {
+			                OV9655_VGAConfig();
+                                        //OV9655_QVGAConfig();
+				 	LCD_Clear(Black);
+					/*DCMI_CROPInitStructure.DCMI_HorizontalOffsetCount = 160;
+					DCMI_CROPInitStructure.DCMI_VerticalStartLine = 120;
+					DCMI_CROPInitStructure.DCMI_CaptureCount = 320;
+					DCMI_CROPInitStructure.DCMI_VerticalLineCount = 239;*/
+                                       DCMI_CROPInitStructure.DCMI_HorizontalOffsetCount = 0x0;
+					DCMI_CROPInitStructure.DCMI_VerticalStartLine = 0x0;
+					DCMI_CROPInitStructure.DCMI_CaptureCount = 320*2;
+					DCMI_CROPInitStructure.DCMI_VerticalLineCount = 240*2;
+					DCMI_CROPConfig(&DCMI_CROPInitStructure);
+					//DCMI_CROPCmd(ENABLE);
+			      break;
+			    }
+			     case BMP_SXGA:
+			    {
+			                 OV9655_SXGAConfig();
+				   	
+					DCMI_CROPInitStructure.DCMI_HorizontalOffsetCount = 480 ; 
+					DCMI_CROPInitStructure.DCMI_VerticalStartLine = 392;
+					DCMI_CROPInitStructure.DCMI_CaptureCount = 320;
+					DCMI_CROPInitStructure.DCMI_VerticalLineCount = 240;
+					DCMI_CROPConfig(&DCMI_CROPInitStructure);
+					DCMI_CROPCmd(ENABLE);
+			      break;
+			    }
+
+			    default:
+			    {
+			   
+			      break;
+			    }
+			}
+			
+ 		}
+  
+}
+
+
+
 /**
   * @brief  Configures the OV9655 camera in QQVGA mode.
   * @param  None
@@ -678,13 +751,13 @@ void OV9655_QVGAConfig(void)
 
   //OV9655_Reset();
   OV9655_WriteReg(OV9655_COM7, 0x80);
-  Delay(200);
+  //Delay(20);
 
   /* Initialize OV9655 */
   for(i=0; i<(sizeof(OV9655_QVGA)/2); i++)
   {
     OV9655_WriteReg(OV9655_QVGA[i][0], OV9655_QVGA[i][1]);
-    Delay(2);
+    //Delay(2);
   }
 }
 
@@ -697,9 +770,9 @@ void OV9655_QVGAConfig(void)
 void OV9655_VGAConfig(void)
 {
   uint32_t i;
-unsigned char OV9655_VGA[][2]=
+/*unsigned char OV9655_VGA[][2]=
 {
-0x12,0x80,
+//0x12,0x80,
 0xb5,0x00,
 0x35,0x00,
 0xa8,0xc1,
@@ -863,16 +936,158 @@ unsigned char OV9655_VGA[][2]=
 0xa9,0xef
 
 
-};
+};*/
   OV9655_Reset();
-  Delay(200);
+ // Delay(200);
 
   /* Initialize OV9655 */
-  for(i=0; i<(sizeof(OV9655_VGA)/2); i++)
-  {
-    OV9655_WriteReg(OV9655_VGA[i][0], OV9655_VGA[i][1]);
-    Delay(2);
-  }
+  //for(i=0; i<(sizeof(OV9655_VGA)/2); i++)
+ // {
+    //OV9655_WriteReg(OV9655_VGA[i][0], OV9655_VGA[i][1]);
+    
+   OV9655_WriteReg(0x11, 0x83);
+OV9655_WriteReg(0x6b, 0x4a);
+OV9655_WriteReg(0x6a, 0x3e);
+OV9655_WriteReg(0x3b, 0x09);
+OV9655_WriteReg(0x13, 0xe0);
+OV9655_WriteReg(0x01, 0x80);
+OV9655_WriteReg(0x02, 0x80);
+OV9655_WriteReg(0x00, 0x00);
+OV9655_WriteReg(0x10, 0x00);
+OV9655_WriteReg(0x13, 0xe5);
+//
+OV9655_WriteReg(0x39, 0x43); //50 for 30fps
+OV9655_WriteReg(0x38, 0x12); //92 for 30fps
+OV9655_WriteReg(0x37, 0x00);
+OV9655_WriteReg(0x35, 0x91); //81 for 30fps
+OV9655_WriteReg(0x0e, 0xa0);
+OV9655_WriteReg(0x1e, 0x04);
+//
+OV9655_WriteReg(0xa8, 0x80);
+OV9655_WriteReg(0x12, 0x44);
+OV9655_WriteReg(0x04, 0x00);
+OV9655_WriteReg(0x0c, 0x04);
+OV9655_WriteReg(0x0d, 0x80);
+OV9655_WriteReg(0x18, 0xc6);
+OV9655_WriteReg(0x17, 0x26);
+OV9655_WriteReg(0x32, 0xad);
+OV9655_WriteReg(0x03, 0x00);
+OV9655_WriteReg(0x1a, 0x3d);
+OV9655_WriteReg(0x19, 0x01);
+OV9655_WriteReg(0x3f, 0xa6);
+OV9655_WriteReg(0x14, 0x2e);
+OV9655_WriteReg(0x15, 0x02);
+OV9655_WriteReg(0x41, 0x00);
+OV9655_WriteReg(0x42, 0x08);
+//
+OV9655_WriteReg(0x1b, 0x00);
+OV9655_WriteReg(0x16, 0x06);
+OV9655_WriteReg(0x33, 0xe2); //c0 for internal regulator
+OV9655_WriteReg(0x34, 0xbf);
+OV9655_WriteReg(0x96, 0x04);
+OV9655_WriteReg(0x3a, 0x00);
+OV9655_WriteReg(0x8e, 0x00);
+//
+OV9655_WriteReg(0x3c, 0x77);
+OV9655_WriteReg(0x8b, 0x06);
+OV9655_WriteReg(0x94, 0x88);
+OV9655_WriteReg(0x95, 0x88);
+OV9655_WriteReg(0x40, 0xd1);
+OV9655_WriteReg(0x29, 0x3f); //2f for internal regulator
+OV9655_WriteReg(0x0f, 0x42);
+//
+OV9655_WriteReg(0x3d, 0x90);
+OV9655_WriteReg(0x69, 0x40);
+OV9655_WriteReg(0x5c, 0xb9);
+OV9655_WriteReg(0x5d, 0x96);
+OV9655_WriteReg(0x5e, 0x10);
+OV9655_WriteReg(0x59, 0xc0);
+OV9655_WriteReg(0x5a, 0xaf);
+OV9655_WriteReg(0x5b, 0x55);
+OV9655_WriteReg(0x43, 0xf0);
+OV9655_WriteReg(0x44, 0x10);
+OV9655_WriteReg(0x45, 0x68);
+OV9655_WriteReg(0x46, 0x96);
+OV9655_WriteReg(0x47, 0x60);
+OV9655_WriteReg(0x48, 0x80);
+OV9655_WriteReg(0x5f, 0xe0);
+OV9655_WriteReg(0x60, 0x8c); //0c for advanced AWB (related to lens)
+OV9655_WriteReg(0x61, 0x20);
+OV9655_WriteReg(0xa5, 0xd9);
+OV9655_WriteReg(0xa4, 0x74);
+OV9655_WriteReg(0x8d, 0x02);
+OV9655_WriteReg(0x13, 0xe7);
+//
+OV9655_WriteReg(0x4f, 0xb7);
+OV9655_WriteReg(0x50, 0x2e);
+OV9655_WriteReg(0x51, 0x09);
+OV9655_WriteReg(0x52, 0x1f);
+OV9655_WriteReg(0x53, 0xb1);
+OV9655_WriteReg(0x54, 0x12);
+OV9655_WriteReg(0x55, 0x06);
+OV9655_WriteReg(0x56, 0x55);
+OV9655_WriteReg(0x57, 0xdb);
+OV9655_WriteReg(0x58, 0x77);
+//
+OV9655_WriteReg(0x8c, 0x23);
+OV9655_WriteReg(0x3e, 0x02);
+OV9655_WriteReg(0xa9, 0xb8);
+OV9655_WriteReg(0xaa, 0x92);
+OV9655_WriteReg(0xab, 0x0a);
+OV9655_WriteReg(0x8f, 0xdf);
+OV9655_WriteReg(0x90, 0x00);
+OV9655_WriteReg(0x91, 0x00);
+OV9655_WriteReg(0x9f, 0x00);
+OV9655_WriteReg(0xa0, 0x00);
+OV9655_WriteReg(0x3a, 0x01);
+//
+OV9655_WriteReg(0x24, 0x70);
+OV9655_WriteReg(0x25, 0x64);
+OV9655_WriteReg(0x26, 0xc3);
+//
+OV9655_WriteReg(0x2a, 0x00); //10 for 50Hz
+OV9655_WriteReg(0x2b, 0x00); //40 for 50Hz
+//
+//gamma
+OV9655_WriteReg(0x6c, 0x40);
+OV9655_WriteReg(0x6d, 0x30);
+OV9655_WriteReg(0x6e, 0x4b);
+OV9655_WriteReg(0x6f, 0x60);
+OV9655_WriteReg(0x70, 0x70);
+OV9655_WriteReg(0x71, 0x70);
+OV9655_WriteReg(0x72, 0x70);
+OV9655_WriteReg(0x73, 0x70);
+OV9655_WriteReg(0x74, 0x60);
+OV9655_WriteReg(0x75, 0x60);
+OV9655_WriteReg(0x76, 0x50);
+OV9655_WriteReg(0x77, 0x48);
+OV9655_WriteReg(0x78, 0x3a);
+OV9655_WriteReg(0x79, 0x2e);
+OV9655_WriteReg(0x7a, 0x28);
+OV9655_WriteReg(0x7b, 0x22);
+OV9655_WriteReg(0x7c, 0x04);
+OV9655_WriteReg(0x7d, 0x07);
+OV9655_WriteReg(0x7e, 0x10);
+OV9655_WriteReg(0x7f, 0x28);
+OV9655_WriteReg(0x80, 0x36);
+OV9655_WriteReg(0x81, 0x44);
+OV9655_WriteReg(0x82, 0x52);
+OV9655_WriteReg(0x83, 0x60);
+OV9655_WriteReg(0x84, 0x6c);
+OV9655_WriteReg(0x85, 0x78);
+OV9655_WriteReg(0x86, 0x8c);
+OV9655_WriteReg(0x87, 0x9e);
+OV9655_WriteReg(0x88, 0xbb);
+OV9655_WriteReg(0x89, 0xd2);
+OV9655_WriteReg(0x8a, 0xe6);
+//
+OV9655_WriteReg(0x09, 0x11);
+OV9655_WriteReg(0x09, 0x01);
+    
+  //}
+  
+  
+ 
 }
 /**
   * @brief  SConfigures the OV9655 camera in SXGA mode.
