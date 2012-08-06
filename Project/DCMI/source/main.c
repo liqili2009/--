@@ -111,7 +111,7 @@ int main(void)
   
   
   //SRAM_Init();
-  test_sram();
+  //test_sram();
    
   
   /* Initializes the DCMI interface (I2C and GPIO) used to configure the camera */
@@ -188,6 +188,7 @@ int main(void)
   {
     /* LCD Display window */
     LCD_SetDisplayWindow(239, 319, 240, 320);
+    //LCD_SetDisplayWindow(0, 0, 240, 320);
     LCD_WriteReg(LCD_REG_3, 0x1038);
     LCD_WriteRAM_Prepare(); 
   }

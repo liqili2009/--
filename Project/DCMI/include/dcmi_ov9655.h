@@ -219,7 +219,9 @@ uint8_t OV9655_WriteReg(uint16_t Addr, uint8_t Data);
 uint8_t OV9655_ReadReg(uint16_t Addr);
 void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat);
 void OV9655_ZoomPreview(ImageFormat_TypeDef ImageFormat,uint8_t m);
-
+void test_init();
+void test_qvga();
+void test_vga();
 
 #endif /* __DCMI_OV9655_H */
 
