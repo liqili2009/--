@@ -737,6 +737,11 @@ void OV9655_InitSet()
     OV9655_WriteReg(0x1a, 0x3d);   /* vstop */
     OV9655_WriteReg(0x32, 0xff);   /* href */
     OV9655_WriteReg(0xc0, 0xaa);
+
+
+	OV9655_WriteReg(0x15, 0x08);
+	 OV9655_WriteReg(0x3a, 0xcc);
+	  OV9655_WriteReg( 0x3e, 0x02);
 }
 
 /**
@@ -866,11 +871,12 @@ void OV9655_ZoomPreview(ImageFormat_TypeDef ImageFormat,uint8_t m)
 			    {
 			       	  OV9655_QVGAConfig();
 
-					 // test_init();
-					  test_vga();
+					  //test_init();
+					 //OV9655_InitSet();
+					// test_vga();
 					
 
-					/*OV9655_WriteReg(0x72, 0x00);
+					OV9655_WriteReg(0x72, 0x00);
 					OV9655_WriteReg(0x73, 0x00);
 					OV9655_WriteReg(0x36, 0xfa), 
 					OV9655_WriteReg(0x3e, 0x0c);
@@ -881,15 +887,17 @@ void OV9655_ZoomPreview(ImageFormat_TypeDef ImageFormat,uint8_t m)
 					OV9655_WriteReg(0x74,0x01);
 					OV9655_WriteReg(0x75,0x01);
 					OV9655_WriteReg(0xC7,0x81);
-
-					OV9655_WriteReg(0X04,0X00);*/
+					OV9655_WriteReg(0x8B,0x00);
+				
+                                       // OV9655_WriteReg(0x15,0x28);
 					
-					//OV9655_WriteReg(0x03, 0x02);   /* vref */
-				        // OV9655_WriteReg(0x17, 0x18);   /* hstart */
-					//OV9655_WriteReg(0x18, 0x04);   /* hstop */
-					//OV9655_WriteReg(0x19, 0x01);   /* vstrt */
-					//OV9655_WriteReg(0x1a, 0x81);   /* vstop */
-					//OV9655_WriteReg(0x32, 0xff);   /* href */
+					OV9655_WriteReg(0x03, 0x12);   /* vref */
+					OV9655_WriteReg(0x17, 0x16);   /* hstart */
+					OV9655_WriteReg(0x18, 0x02);   /* hstop */
+					OV9655_WriteReg(0x19, 0x01);   /* vstrt */
+					OV9655_WriteReg(0x1a, 0x3d);   /* vstop */
+					OV9655_WriteReg(0x32, 0xff);   /* href */
+					
 
                                        
 				 	LCD_Clear(Black);
@@ -897,12 +905,12 @@ void OV9655_ZoomPreview(ImageFormat_TypeDef ImageFormat,uint8_t m)
 					DCMI_CROPInitStructure.DCMI_VerticalStartLine = 240;
 					DCMI_CROPInitStructure.DCMI_CaptureCount = 639;
 					DCMI_CROPInitStructure.DCMI_VerticalLineCount = 479;
-                   /* DCMI_CROPInitStructure.DCMI_HorizontalOffsetCount = 0;
+                                        /*DCMI_CROPInitStructure.DCMI_HorizontalOffsetCount = 0;
 					DCMI_CROPInitStructure.DCMI_VerticalStartLine = 0;
-					DCMI_CROPInitStructure.DCMI_CaptureCount = 640;
-					DCMI_CROPInitStructure.DCMI_VerticalLineCount = 480;*/
+					DCMI_CROPInitStructure.DCMI_CaptureCount = 319;
+					DCMI_CROPInitStructure.DCMI_VerticalLineCount = 239;*/
 					DCMI_CROPConfig(&DCMI_CROPInitStructure);
-					//DCMI_CROPCmd(ENABLE);
+					DCMI_CROPCmd(ENABLE);
                                         
                                         
                                      
@@ -1141,7 +1149,7 @@ OV9655_WriteReg(0x9d, 0x06);    //0x08 to 0x06
 OV9655_WriteReg(0x9e, 0x08);    //0x09 to 0x08
 OV9655_WriteReg(0x29, 0x15);
 OV9655_WriteReg(0xa9, 0xef);
-OV9655_WriteReg(0x11, 0x00);
+OV9655_WriteReg(0x11, 0x01);
 
 OV9655_WriteReg(0x6b, 0x5a);    //0x1a to 0x5a
 
@@ -1158,6 +1166,10 @@ OV9655_WriteReg(0xc6, 0x05);
 OV9655_WriteReg(0x24, 0x50);
 OV9655_WriteReg(0x25, 0x48);
 OV9655_WriteReg(0x26, 0x82);
+
+
+OV9655_WriteReg(0x15, 0x08);
+
 }
 
 void test_vga()
@@ -1170,7 +1182,7 @@ OV9655_WriteReg(0x3e, 0x0c);
 OV9655_WriteReg(0x74, 0x3a);
 OV9655_WriteReg(0x75, 0x35);
 OV9655_WriteReg(0x73, 0x00);
-OV9655_WriteReg(0xc7, 0x80);
+OV9655_WriteReg(0xc7, 0x81);
 
 OV9655_WriteReg(0x12, 0x62);
 OV9655_WriteReg(0x03, 0x12);
@@ -1191,6 +1203,8 @@ OV9655_WriteReg(0xa2, 0x4a);    //0x4b to 0x4a
 OV9655_WriteReg(0xa3, 0x3e);    //0x4b to 0x3e
 OV9655_WriteReg(0x6a, 0x06);    //0x4b to 0x06
 OV9655_WriteReg(0xc5, 0x07);    //add
+OV9655_WriteReg(0x8B,00);
+
    
 }
 void test_qvga()
@@ -1772,6 +1786,80 @@ uint8_t OV9655_ReadReg(uint16_t Addr)
   /* return the read data */
   return Data;
 }
+
+
+/**
+* @brief  Set the Internal Clock Prescaler.
+* @param  OV9655_Prescaler: the new value of the prescaler.
+*         This parameter can be a value between 0x0 and 0x1F
+* @retval None
+*/
+void DCMI_OV9655_SetPrescaler(uint8_t OV9655_Prescaler)
+{
+	OV9655_WriteReg( OV9655_CLKRC, OV9655_Prescaler);
+}
+
+/**
+* @brief  Select the Output Format.
+* @param  OV9655_OuputFormat: the Format of the ouput Data.
+*         This parameter can be one of the following values:
+*           @arg OUTPUT_FORMAT_RAWRGB_DATA
+*           @arg OUTPUT_FORMAT_RAWRGB_INTERP
+*           @arg OUTPUT_FORMAT_YUV
+*           @arg OUTPUT_FORMAT_RGB
+* @retval None
+*/
+void DCMI_OV9655_SelectOutputFormat(uint8_t OV9655_OuputFormat)
+{
+	OV9655_WriteReg(OV9655_COM7, OV9655_OuputFormat);
+}
+
+/**
+* @brief  Select the Output Format Resolution.
+* @param  OV9655_FormatResolution: the Resolution of the ouput Data.
+*         This parameter can be one of the following values:
+*           @arg FORMAT_CTRL_15fpsVGA
+*           @arg FORMAT_CTRL_30fpsVGA_NoVArioPixel
+*           @arg FORMAT_CTRL_30fpsVGA_VArioPixel
+* @retval None
+*/
+void DCMI_OV9655_SelectFormatResolution(uint8_t OV9655_FormatResolution)
+{
+	OV9655_WriteReg(OV9655_COM7, OV9655_FormatResolution);
+}
+
+
+
+/**
+* @brief  Select the HREF Control signal option
+* @param  OV9665_HREFControl: the HREF Control signal option.
+*         This parameter can be one of the following value:
+*           @arg OV9665_HREFControl_Opt1: HREF edge offset to data output.
+*           @arg OV9665_HREFControl_Opt2: HREF end 3 LSB
+*           @arg OV9665_HREFControl_Opt3: HREF start 3 LSB
+* @retval None
+*/
+void DCMI_OV9655_HREFControl(uint8_t OV9665_HREFControl)
+{
+	OV9655_WriteReg(OV9655_HREF, OV9665_HREFControl);
+}
+
+/**
+* @brief  Select the RGB format option
+* @param  OV9665_RGBOption: the RGB Format option.
+*         This parameter can be one of the following value:
+*           @arg RGB_NORMAL
+*           @arg RGB_565
+*           @arg RGB_555
+* @retval None
+*/
+void DCMI_OV9655_SelectRGBOption(uint8_t OV9665_RGBOption)
+{
+	OV9655_WriteReg(OV9655_COM15, OV9665_RGBOption);
+}
+
+/**
+
 
 /**
   * @}

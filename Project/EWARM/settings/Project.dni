@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-2014018894
+Checksum=-421353776
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -22,14 +22,15 @@ mode=0
 [Breakpoints2]
 Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\stm32f2xx_it.c}.162.3" 0 0 1 "" 0 "" 0
 Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov7670.c}.228.12" 0 0 1 "" 0 "" 0
-Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.506.3" 0 0 1 "" 0 "" 0
+Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.1872.1" 0 0 1 "" 0 "" 0
 Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\NAND\source\test.c}.58.45" 0 0 1 "" 0 "" 0
 Bp4=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\stm32f2xx_it.c}.194.11" 0 0 1 "" 0 "" 0
 Bp5=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\stm32f2xx_it.c}.184.7" 0 0 1 "" 0 "" 0
 Bp6=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\test_fsmc_sram.c}.94.3" 0 0 1 "" 0 "" 0
-Bp7=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.913.12" 0 0 1 "" 0 "" 0
-Bp8=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.897.6" 0 0 1 "" 0 "" 0
-Count=9
+Bp7=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.925.6" 0 0 1 "" 0 "" 0
+Bp8=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.925.6" 0 0 1 "" 0 "" 0
+Bp9=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.921.12" 0 0 1 "" 0 "" 0
+Count=10
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""

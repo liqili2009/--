@@ -203,6 +203,85 @@ typedef struct
 #define OV9655_COM23      0xC4
 #define OV9655_BD60MAX    0xC5
 #define OV9655_COM24      0xC7
+
+
+
+/* Registers bit definition */
+/* COM1 Register */
+#define CCIR656_FORMAT  0x40
+#define HREF_SKIP_0     0x00
+#define HREF_SKIP_1     0x04
+#define HREF_SKIP_3     0x08
+
+/* COM2 Register */
+#define SOFT_SLEEP_MODE  0x10	
+#define ODCAP_1x         0x00	
+#define ODCAP_2x         0x01	
+#define ODCAP_3x         0x02	
+#define ODCAP_4x         0x03
+	
+/* COM3 Register */
+#define COLOR_BAR_OUTPUT         0x80
+#define OUTPUT_MSB_LAS_SWAP      0x40
+#define PIN_REMAP_RESETB_EXPST   0x08 
+#define RGB565_FORMAT            0x00 
+#define RGB_OUTPUT_AVERAGE       0x04 
+#define SINGLE_FRAME             0x01
+
+/* COM5 Register */
+#define SLAM_MODE_ENABLE      0x40
+#define EXPOSURE_NORMAL_MODE  0x01
+
+/* COM7 Register */
+#define SCCB_REG_RESET                       0x80
+#define FORMAT_CTRL_15fpsVGA                 0x00
+#define FORMAT_CTRL_30fpsVGA_NoVArioPixel    0x50
+#define FORMAT_CTRL_30fpsVGA_VArioPixel      0x60
+#define OUTPUT_FORMAT_RAWRGB                 0x00
+#define OUTPUT_FORMAT_RAWRGB_DATA            0x00
+#define OUTPUT_FORMAT_RAWRGB_INTERP          0x01
+#define OUTPUT_FORMAT_YUV                    0x02
+#define OUTPUT_FORMAT_RGB                    0x03
+
+/* COM9 Register */
+#define GAIN_2x         0x00	
+#define GAIN_4x         0x10	
+#define GAIN_8x         0x20	
+#define GAIN_16x        0x30	
+#define GAIN_32x        0x40	
+#define GAIN_64x        0x50	
+#define GAIN_128x       0x60	
+#define DROP_VSYNC      0x04	
+#define DROP_HREF       0x02
+	
+/* COM10 Register */
+#define RESETb_REMAP_SLHS    0x80
+#define HREF_CHANGE_HSYNC    0x40
+#define PCLK_ON              0x00
+#define PCLK_OFF             0x20
+#define PCLK_POLARITY_REV    0x10
+#define HREF_POLARITY_REV    0x08
+#define RESET_ENDPOINT       0x04
+#define VSYNC_NEG            0x02
+#define HSYNC_NEG            0x01
+
+/* TSLB Register */
+#define PCLK_DELAY_0         0x00
+#define PCLK_DELAY_2         0x40
+#define PCLK_DELAY_4         0x80
+#define PCLK_DELAY_6         0xC0
+#define OUTPUT_BITWISE_REV   0x20
+#define UV_NORMAL            0x00
+#define UV_FIXED             0x10
+#define YUV_SEQ_YUYV         0x00
+#define YUV_SEQ_YVYU         0x02
+#define YUV_SEQ_VYUY         0x04
+#define YUV_SEQ_UYVY         0x06
+#define BANDING_FREQ_50      0x02
+
+#define RGB_NORMAL   0x00 
+#define RGB_565      0x10 
+#define RGB_555      0x30 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
