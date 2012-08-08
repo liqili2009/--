@@ -45,7 +45,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* QQVGA 160x120 */
-static unsigned char OV9655_QQVGA[][2]=
+/*static unsigned char OV9655_QQVGA[][2]=
 {
   0x00, 0x00,
   0x01, 0x80,
@@ -199,7 +199,7 @@ static unsigned char OV9655_QQVGA[][2]=
   0x12, 0x63,
   0x40, 0x10,
   0x15, 0x08,
-};
+};*/
 
 /* QVGA 360x240 */
 static unsigned char OV9655_QVGA[][2]=
@@ -222,7 +222,7 @@ static unsigned char OV9655_QVGA[][2]=
   0x18, 0x04,
   0x19, 0x01,
   0x1a, 0x81,
-  0x1e, 0x00,
+  0x1e, 0x20,/*图像上下颠倒0x00*/
   0x24, 0x3c,
   0x25, 0x36,
   0x26, 0x72,
@@ -509,7 +509,7 @@ void OV9655_Init(ImageFormat_TypeDef ImageFormat)
   DMA_InitStructure.DMA_PeripheralBaseAddr = DCMI_DR_ADDRESS;	
   DMA_InitStructure.DMA_Memory0BaseAddr = FSMC_LCD_ADDRESS;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
-  DMA_InitStructure.DMA_BufferSize = 1;
+  DMA_InitStructure.DMA_BufferSize = 0xffff;
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Disable;
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
@@ -550,198 +550,81 @@ void OV9655_Init(ImageFormat_TypeDef ImageFormat)
       DMA_Init(DMA2_Stream1, &DMA_InitStructure);
       break;
     }
-  }    
+  }   
+
+  OV9655_Reset();
+  OV9655_InitSet();
+  
 }
 
+void OV9655_Display(ImageFormat_TypeDef ImageFormat)
+{
+	u16 i = 0 ,j = 0 ;
+	u32 lseek0 = 0,lseek1 = 0;
+	unsigned int  pIndex = Bank1_SRAM2_ADDR;
+	switch(ImageFormat)
+          {
+            case BMP_QQVGA:
+            {
+                        
+              break;
+            }
+            case BMP_QVGA:/*320*240*/
+            {
+                
+              break;
+            }
+                 case BMP_VGA:/*640*480*/
+            {
+                lseek0 = 76960;
+                lseek1 = 319;
+                break;
+            }
+                case BMP_SXGA:/*1280*1024*/
+            {
+                lseek0 = 461280;
+                        lseek1 = 959;
+        
+                break;
+            }
+            default:
+            {
+        
+              break;
+            }
+          }
 
+	lseek0 = lseek0*2;
+	lseek1 = lseek1*2;
+	pIndex +=lseek0;
+	for( i = 0 ; i < 240 ; i++)
+
+		{
+			for(j = 0 ; j < 320 ; j++)
+				{
+                                           LCD_WriteRAM(*(u16*)pIndex);
+
+					   pIndex+=2;
+				}
+			pIndex +=lseek1;
+		}
+
+	
+  
+	
+}
 
 void OV9655_InitSet()
 {
-    OV9655_WriteReg(0x12, 0x80);   /* com7 - SSCB reset */
-	 Delay(3);
-    OV9655_WriteReg(0x00, 0x00);   /* gain */
-    OV9655_WriteReg(0x01, 0x80);   /* blue */
-    OV9655_WriteReg(0x02, 0x80);   /* red */
-    OV9655_WriteReg(0x03, 0x1b);   /* vref */
-    OV9655_WriteReg(0x04, 0x03);   /* com1 - exposure low bits */
-    OV9655_WriteReg(0x0b, 0x57);   /* ver */
-    OV9655_WriteReg(0x0e, 0x61);   /* com5 */
-    OV9655_WriteReg(0x0f, 0x42);   /* com6 */
-    OV9655_WriteReg(0x11, 0x00);   /* clkrc */
-    OV9655_WriteReg(0x12, 0x03);   /* com7 - 15fps VGA RGB */
-    OV9655_WriteReg(0x13, 0xe7);//0xc7   /* com8 - everything (AGC, AWB and AEC) */
-    OV9655_WriteReg(0x14, 0x28);//0x3a   /* com9 */
-    OV9655_WriteReg(0x16, 0x24);   /* reg16 */
-    OV9655_WriteReg(0x17, 0x1d);   /* hstart*/
-    OV9655_WriteReg(0x18, 0xbd);   /* hstop */
-    OV9655_WriteReg(0x19, 0x01);   /* vstrt */
-    OV9655_WriteReg(0x1a, 0x81);   /* vstop*/
-    OV9655_WriteReg(0x1e, 0x00);//0x00  /* mvfp */
-    OV9655_WriteReg(0x24, 0x3c);   /* aew */
-    OV9655_WriteReg(0x25, 0x36);   /* aeb */
-    OV9655_WriteReg(0x26, 0x71);   /* vpt */
-    OV9655_WriteReg(0x27, 0x08);   /* bbias */
-    OV9655_WriteReg(0x28, 0x08);   /* gbbias */
-    OV9655_WriteReg(0x29, 0x15);   /* gr com */
-     OV9655_WriteReg(0x2a, 0x00);   /* exhch */
-     OV9655_WriteReg(0x2b, 0x00);   /* exhcl */
-     OV9655_WriteReg(0x2c, 0x08);   /* rbias */
-     OV9655_WriteReg(0x32, 0xff);   /* href */
-     OV9655_WriteReg(0x33, 0x00);   /* chlf */
-     OV9655_WriteReg(0x34, 0x3f);   /* aref1 */
-     OV9655_WriteReg(0x35, 0x00);   /* aref2 */
-     OV9655_WriteReg(0x36, 0x3A);//0x3a   /* aref3 */
-    OV9655_WriteReg(0x38, 0x72);   /* adc2 */
-    OV9655_WriteReg(0x39, 0x57);   /* aref4 */
-     OV9655_WriteReg(0x3a, 0xCC);//0xcc   /* tslb - yuyv */
-     OV9655_WriteReg(0x3b, 0xc4);//0x04   /* com11 - night mode 1/4 frame rate */
-     OV9655_WriteReg(0x3d, 0x99);   /* com13 */
-     OV9655_WriteReg(0x3f, 0xc1);   /* edge */
-     OV9655_WriteReg(0x40, 0xc0);   /* com15 */
-     OV9655_WriteReg(0x41, 0x40); //0x41   /* com16 */
-     OV9655_WriteReg(0x42, 0xc0);   /* com17 */
-      OV9655_WriteReg(0x43, 0x0a);   /* rsvd */
-      OV9655_WriteReg(0x44, 0xf0);
-      OV9655_WriteReg(0x45, 0x46);
-      OV9655_WriteReg(0x46, 0x62);
-      
-      
-      OV9655_WriteReg(0x47, 0x2a);
-      OV9655_WriteReg(0x48, 0x3c);
-      OV9655_WriteReg(0x4a, 0xfc);
-       OV9655_WriteReg(0x4b, 0xfc);
-       OV9655_WriteReg(0x4c, 0x7f);
-       OV9655_WriteReg(0x4d, 0x7f);
-       OV9655_WriteReg(0x4e, 0x7f);
-       OV9655_WriteReg(0x4f, 0x98);   /* matrix */
-       OV9655_WriteReg(0x50, 0x98);
-       OV9655_WriteReg(0x51, 0x00);
-       OV9655_WriteReg(0x52, 0x28);
-       OV9655_WriteReg(0x53, 0x70);
-       OV9655_WriteReg(0x54, 0x98);
-       OV9655_WriteReg(0x58, 0x1a);   /* matrix coef sign */
-       OV9655_WriteReg(0x59, 0x85);   /* AWB control */
-       OV9655_WriteReg(0x5a, 0xa9);
-       OV9655_WriteReg(0x5b, 0x64);
-       OV9655_WriteReg(0x5c, 0x84);
-       OV9655_WriteReg(0x5d, 0x53);
-       OV9655_WriteReg(0x5e, 0x0e);
-       OV9655_WriteReg(0x5f, 0xf0);   /* AWB blue limit */
-       OV9655_WriteReg(0x60, 0xf0);   /* AWB red limit */
-       OV9655_WriteReg(0x61, 0xf0);   /* AWB green limit */
-       OV9655_WriteReg(0x62, 0x00);   /* lcc1 */
-       OV9655_WriteReg(0x63, 0x00);   /* lcc2 */
-       OV9655_WriteReg(0x64, 0x02);   /* lcc3 */
-       OV9655_WriteReg(0x65, 0x20);//0x20   /* lcc4 */
-       OV9655_WriteReg(0x66, 0x00);//0x00   /* lcc5 */
-       OV9655_WriteReg(0x69, 0x0A);//建议改成0x0a   /* hv */
-       OV9655_WriteReg(0x6b, 0x5a);   /* dbvl */
-       OV9655_WriteReg(0x6c, 0x04);
-       OV9655_WriteReg(0x6d, 0x55);
-       OV9655_WriteReg(0x6e, 0x00);
-       OV9655_WriteReg(0x6f, 0x9d);
-       OV9655_WriteReg(0x70, 0x21);   /* dnsth */
-       OV9655_WriteReg(0x71, 0x78);
-       OV9655_WriteReg(0x72, 0x00); //scale down  /* poidx */
-       OV9655_WriteReg(0x73, 0x01);   /* pckdv */
-       OV9655_WriteReg(0x74, 0x3a);//0x10   /* xindx */
-       OV9655_WriteReg(0x75, 0x35);//0x10   /* yindx */
-       OV9655_WriteReg(0x76, 0x01);
-       OV9655_WriteReg(0x77, 0x02);
-       OV9655_WriteReg(0x7a, 0x12);   /* gamma curve */
-       OV9655_WriteReg(0x7b, 0x08);
-       OV9655_WriteReg(0x7c, 0x16);
-       OV9655_WriteReg(0x7d, 0x30);
-       OV9655_WriteReg(0x7e, 0x5e);
-       OV9655_WriteReg(0x7f, 0x72);
-       OV9655_WriteReg(0x80, 0x82);
-       OV9655_WriteReg(0x81, 0x8e);
-       OV9655_WriteReg(0x82, 0x9a);
-       OV9655_WriteReg(0x83, 0xa4);
-       OV9655_WriteReg(0x84, 0xac);
-       OV9655_WriteReg(0x85, 0xb8);
-       OV9655_WriteReg(0x86, 0xc3);
-       OV9655_WriteReg(0x87, 0xd6);
-       OV9655_WriteReg(0x88, 0xe6);
-       OV9655_WriteReg(0x89, 0xf2);
-       OV9655_WriteReg(0x8a, 0x24);//0x24
-       OV9655_WriteReg(0x8c, 0x80); //0x80  /* com19 */
-       OV9655_WriteReg(0x14, 0x28);   /* com9 */
-       OV9655_WriteReg(0x90, 0x7d);
-       OV9655_WriteReg(0x91, 0x7b);
-       OV9655_WriteReg(0x9d, 0x02);//0x02   /* lcc6 */
-       OV9655_WriteReg(0x9e, 0x02);//0x02   /* lcc7 */
-       OV9655_WriteReg(0x9f, 0x7a);
-       OV9655_WriteReg(0xa0, 0x79);
-       OV9655_WriteReg(0xa1, 0x40);   /* aechm */
-       OV9655_WriteReg(0xa4, 0x50);   /* com21 */
-       OV9655_WriteReg(0xa5, 0x68);   /* com26 */
-       OV9655_WriteReg(0xa6, 0x4a);   /* AWB green */
-       OV9655_WriteReg(0xa8, 0xc1);   /* refa8 */
-       OV9655_WriteReg(0xa9, 0xef);   /* refa9 */
-       OV9655_WriteReg(0xaa, 0x92);
-       OV9655_WriteReg(0xab, 0x04);
-       OV9655_WriteReg(0xac, 0x80);   /* black level control */
-       OV9655_WriteReg(0xad, 0x80);
-       OV9655_WriteReg(0xae, 0x80);
-       OV9655_WriteReg(0xaf, 0x80);
-       OV9655_WriteReg(0xb2, 0xf2);
-       OV9655_WriteReg(0xb3, 0x20);
-       OV9655_WriteReg(0xb4, 0x20);   /* ctrlb4 */
-       OV9655_WriteReg(0xb5, 0x00);
-       OV9655_WriteReg(0xb6, 0xaf);
-       OV9655_WriteReg(0xbb, 0xae);
-       OV9655_WriteReg(0xbc, 0x7f);   /* ADC channel offsets */
-       OV9655_WriteReg(0xdb, 0x7f);
-       OV9655_WriteReg(0xbe, 0x7f);
-       OV9655_WriteReg(0xbf, 0x7f);
-       OV9655_WriteReg(0xc0, 0xe2);//0xaa
-       OV9655_WriteReg(0xc1, 0xc0);
-       OV9655_WriteReg(0xc2, 0x01);
-    
-    OV9655_WriteReg(0xc3, 0x4e);
-    OV9655_WriteReg(0xc6, 0x85);//0x05
-    OV9655_WriteReg(0xc7, 0x81);//0x81 与之前某寄存器对应   /* com24 */
-    OV9655_WriteReg(0xc9, 0xe0);
-    OV9655_WriteReg(0xca, 0xe8);
-    OV9655_WriteReg(0xcb, 0xf0);
-    OV9655_WriteReg(0xcc, 0xd8);
-    OV9655_WriteReg(0xcd, 0x93);//0x93
-    
-    
-    
-    
-    //OV9655_WriteReg(0xff, 0x41);   /* read 41, write ff 00 */
-    OV9655_WriteReg(0x41, 0x40);   /* com16 */
-    OV9655_WriteReg(0xc5, 0x03);   /* 60 Hz banding filter */
-    OV9655_WriteReg(0x6a, 0x02);   /* 50 Hz banding filter */
-    
-    /*vga初始化*/
-    OV9655_WriteReg(0x12, 0x63);   /* com7 - 30fps VGA RGB */
-    OV9655_WriteReg(0x36, 0xfa);   /* aref3 */
-    OV9655_WriteReg(0x69, 0x0a);   /* hv */
-    OV9655_WriteReg(0x8c, 0x89);   /* com22 */
-    OV9655_WriteReg(0x14, 0x28);   /* com9 */
-    OV9655_WriteReg(0x3e, 0x0c);
-     OV9655_WriteReg(0x41, 0x40);   /* com16 */
-    OV9655_WriteReg(0x72, 0x00);
-    OV9655_WriteReg(0x73, 0x00);
-    OV9655_WriteReg(0x74, 0x3a);
-     OV9655_WriteReg(0x75, 0x35);
-    OV9655_WriteReg(0x76, 0x01);
-     OV9655_WriteReg(0xc7, 0x80);
-    OV9655_WriteReg(0x03, 0x12);   /* vref */
-    OV9655_WriteReg(0x17, 0x16);   /* hstart */
-    OV9655_WriteReg(0x18, 0x02);   /* hstop */
-    OV9655_WriteReg(0x19, 0x01);   /* vstrt */
-    OV9655_WriteReg(0x1a, 0x3d);   /* vstop */
-    OV9655_WriteReg(0x32, 0xff);   /* href */
-    OV9655_WriteReg(0xc0, 0xaa);
+  u32 i= 0 ;
+ 
 
-
-	OV9655_WriteReg(0x15, 0x08);
-	 OV9655_WriteReg(0x3a, 0xcc);
-	  OV9655_WriteReg( 0x3e, 0x02);
+  /* Initialize OV9655 */
+  for(i=0; i<(sizeof(OV9655_QVGA)/2); i++)
+  {
+    OV9655_WriteReg(OV9655_QVGA[i][0], OV9655_QVGA[i][1]);
+    
+  }
 }
 
 /**
@@ -760,7 +643,8 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
   RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_DCMI, ENABLE);
 
   /* DCMI configuration */ 
-  DCMI_InitStructure.DCMI_CaptureMode = DCMI_CaptureMode_SnapShot;
+  //DCMI_InitStructure.DCMI_CaptureMode = DCMI_CaptureMode_SnapShot;
+  DCMI_InitStructure.DCMI_CaptureMode = DCMI_CaptureMode_Continuous;
   DCMI_InitStructure.DCMI_SynchroMode = DCMI_SynchroMode_Hardware;
   DCMI_InitStructure.DCMI_PCKPolarity = DCMI_PCKPolarity_Falling;
   DCMI_InitStructure.DCMI_VSPolarity = DCMI_VSPolarity_High;
@@ -779,12 +663,13 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
   DMA_InitStructure.DMA_PeripheralBaseAddr = DCMI_DR_ADDRESS;	
   DMA_InitStructure.DMA_Memory0BaseAddr = Bank1_SRAM2_ADDR;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
-  DMA_InitStructure.DMA_BufferSize = 1;
+  DMA_InitStructure.DMA_BufferSize = 0xfffff;
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  //DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Enable;
   DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
@@ -835,7 +720,9 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
     }
 
 
-  }    
+  }  
+
+  //DCMI_OV9655_SetExposure(ImageFormat);
 }
 
 /**
@@ -869,48 +756,24 @@ void OV9655_ZoomPreview(ImageFormat_TypeDef ImageFormat,uint8_t m)
 			   
 			    case BMP_VGA:
 			    {
-			       	  OV9655_QVGAConfig();
+			       	  OV9655_VGAConfig();
 
-					  //test_init();
-					 //OV9655_InitSet();
-					// test_vga();
 					
-
-					OV9655_WriteReg(0x72, 0x00);
-					OV9655_WriteReg(0x73, 0x00);
-					OV9655_WriteReg(0x36, 0xfa), 
-					OV9655_WriteReg(0x3e, 0x0c);
-					OV9655_WriteReg(0x41, 0x40);
-					
-					OV9655_WriteReg(0x74,0x3a);
-					OV9655_WriteReg(0x75,0x35);
-					OV9655_WriteReg(0x74,0x01);
-					OV9655_WriteReg(0x75,0x01);
-					OV9655_WriteReg(0xC7,0x81);
-					OV9655_WriteReg(0x8B,0x00);
-				
-                                       // OV9655_WriteReg(0x15,0x28);
-					
-					OV9655_WriteReg(0x03, 0x12);   /* vref */
-					OV9655_WriteReg(0x17, 0x16);   /* hstart */
-					OV9655_WriteReg(0x18, 0x02);   /* hstop */
-					OV9655_WriteReg(0x19, 0x01);   /* vstrt */
-					OV9655_WriteReg(0x1a, 0x3d);   /* vstop */
-					OV9655_WriteReg(0x32, 0xff);   /* href */
+	
 					
 
-                                       
-				 	LCD_Clear(Black);
-					DCMI_CROPInitStructure.DCMI_HorizontalOffsetCount = 0;
-					DCMI_CROPInitStructure.DCMI_VerticalStartLine = 240;
-					DCMI_CROPInitStructure.DCMI_CaptureCount = 639;
-					DCMI_CROPInitStructure.DCMI_VerticalLineCount = 479;
-                                        /*DCMI_CROPInitStructure.DCMI_HorizontalOffsetCount = 0;
-					DCMI_CROPInitStructure.DCMI_VerticalStartLine = 0;
-					DCMI_CROPInitStructure.DCMI_CaptureCount = 319;
-					DCMI_CROPInitStructure.DCMI_VerticalLineCount = 239;*/
-					DCMI_CROPConfig(&DCMI_CROPInitStructure);
-					DCMI_CROPCmd(ENABLE);
+                                 
+                                  LCD_Clear(Black);
+                                  DCMI_CROPInitStructure.DCMI_HorizontalOffsetCount = 0;
+                                  DCMI_CROPInitStructure.DCMI_VerticalStartLine = 240;
+                                  DCMI_CROPInitStructure.DCMI_CaptureCount = 639;
+                                  DCMI_CROPInitStructure.DCMI_VerticalLineCount = 479;
+                                  /*DCMI_CROPInitStructure.DCMI_HorizontalOffsetCount = 0;
+                                  DCMI_CROPInitStructure.DCMI_VerticalStartLine = 0;
+                                  DCMI_CROPInitStructure.DCMI_CaptureCount = 319;
+                                  DCMI_CROPInitStructure.DCMI_VerticalLineCount = 239;*/
+                                  DCMI_CROPConfig(&DCMI_CROPInitStructure);
+                                  //DCMI_CROPCmd(ENABLE);
                                         
                                         
                                      
@@ -949,17 +812,17 @@ void OV9655_ZoomPreview(ImageFormat_TypeDef ImageFormat,uint8_t m)
   */
 void OV9655_QQVGAConfig(void)
 {
-  uint32_t i;
 
-  OV9655_Reset();
-  Delay(200);
 
-  /* Initialize OV9655 */
-  for(i=0; i<(sizeof(OV9655_QQVGA)/2); i++)
-  {
-    OV9655_WriteReg(OV9655_QQVGA[i][0], OV9655_QQVGA[i][1]);
-    Delay(2);
-  }
+  OV9655_InitSet();
+
+  OV9655_WriteReg(0x32, 0xa4);   /* href */
+  OV9655_WriteReg(0x3e, 0x0e);	
+  OV9655_WriteReg(0x72, 0x22);   
+  OV9655_WriteReg(0x73, 0x02);
+  OV9655_WriteReg(0xC7, 0x82);   
+
+ 
 }
 
 /**
@@ -969,19 +832,10 @@ void OV9655_QQVGAConfig(void)
   */
 void OV9655_QVGAConfig(void)
 {
-  uint32_t i;
+ 
 
-  //OV9655_Reset();
-  OV9655_WriteReg(OV9655_COM7, 0x80);
-  //Delay(20);
-
-  /* Initialize OV9655 */
-  for(i=0; i<(sizeof(OV9655_QVGA)/2); i++)
-  {
-    OV9655_WriteReg(OV9655_QVGA[i][0], OV9655_QVGA[i][1]);
-    //Delay(2);
-  }
-  
+ 
+  	OV9655_InitSet();
 	OV9655_WriteReg(0x03, 0x12);   /* vref */
 	OV9655_WriteReg(0x17, 0x16);   /* hstart */
 	OV9655_WriteReg(0x18, 0x02);   /* hstop */
@@ -1247,207 +1101,38 @@ OV9655_WriteReg(0xc5, 0x07);
   */
 void OV9655_VGAConfig(void)
 {
-  uint32_t i;
-/*unsigned char OV9655_VGA[][2]=
-{
-//0x12,0x80,
-0xb5,0x00,
-0x35,0x00,
-0xa8,0xc1,
-0x3a,0x80,
-0x3d,0x99,
-0x77,0x02,
-0x13,0xe7,
-0x26,0x72,
-0x27,0x08,
-0x28,0x08,
-0x29,0x15,
-0x2c,0x08,
-0xab,0x04,
-0x6e,0x00,
-0x6d,0x55,
-0x00,0x32,
-0x10,0x7b,
-0xbb,0xae,
-0x11,0x01,
-0x72,0x00,
-0x3e,0x0c,
-0x74,0x3a,
-0x76,0x01,
-0x75,0x35,
-0x73,0x00,
-0xc7,0x80,
-
-0xc3,0x4e,
-0x33,0x00,
-0xa4,0x50,
-0xaa,0x92,
-0xc2,0x01,
-0xc1,0xc8,
-0x1e,0x04,
-0xa9,0xfa,
-0x0e,0x61,
-0x39,0x57,
-0x0f,0x42,
-0x24,0x3c,
-0x25,0x36,
-0x12,0x62,
-0x03,0x12,
-0x32,0xff,
-0x17,0x16,
-0x18,0x02,
-0x19,0x01,
-0x1a,0x3d,
-0x36,0xfa,
-0x69,0x0a,
-0x8c,0x8d,
-0xc0,0xaa,
-0x40,0xc0,
-
-0xc6,0x85,
-0xcb,0xf0,
-0xcc,0xd8,
-0x71,0x78,
-0xa5,0x68,
-0x6f,0x9e,
-0x42,0xc0,
-0x3f,0x82,
-0x8a,0x23,
-0x14,0x3a,
-0x3b,0xcc,
-0x34,0x3d,
-0x41,0x40,
-0xc9,0xe0,
-0xca,0xe8,
-0xcd,0x93,
-0x7a,0x20,
-0x7b,0x1c,
-0x7c,0x28,
-0x7d,0x3c,
-0x7e,0x5a,
-0x7f,0x68,
-0x80,0x76,
-0x81,0x80,
-0x82,0x88,
-0x83,0x8f,
-0x84,0x96,
-0x85,0xa3,
-0x86,0xaf,
-0x87,0xc4,
-0x88,0xd7,
-0x89,0xe8,
-0x4f,0x98,
-0x50,0x98,
-0x51,0x00,
-0x52,0x28,
-0x53,0x70,
-0x54,0x98,
-0x58,0x1a,
-0x6b,0x5a,
-0x90,0x86,
-0x91,0x84,
-0x9f,0x75,
-0xa0,0x73,
-0x16,0x24,
-0x2a,0x00,
-0x2b,0x00,
+ 
 
 
-0xac,0x80,
-0xad,0x80,
-0xae,0x80,
-0xaf,0x80,
-0xb2,0xf2,
-0xb3,0x20,
-0xb4,0x20,
-0xb6,0xaf,
-0xb6,0xaf,
-0x04,0x03,
-0x05,0x2b,
-0x06,0x35,
-0x07,0x36,
-0x08,0x3b,
-0x2d,0xf4,
-0x2e,0x01,
-0x2f,0x35,
-0x4a,0xea,
-0x4b,0xe6,
-0x4c,0xe6,
-0x4d,0xe6,
-0x4e,0xe6,
-0x70,0x0b,
-0xa6,0x40,
-0xbc,0x04,
-0xbd,0x01,
-0xbe,0x03,
-0xbf,0x01,
-0xbf,0x01,
+	OV9655_InitSet();
 
-0x43,0x14,
-0x44,0xf0,
-0x45,0x46,
-0x46,0x62,
-0x47,0x2a,
-0x48,0x3c,
-0x59,0x85,
-0x5a,0xa9,
-0x5b,0x64,
-0x5c,0x84,
-0x5d,0x53,
-0x5e,0xe,
-0x6c,0x0c,
-0x6d,0x55,
-0x6e,0x0,
-0x6f,0x9e,
+	
+	
+   OV9655_WriteReg(0x72, 0x00);
+   OV9655_WriteReg(0x73, 0x00);
+   OV9655_WriteReg(0x36, 0xfa), 
+   OV9655_WriteReg(0x3e, 0x0c);
+   OV9655_WriteReg(0x41, 0x40);
+   
+   OV9655_WriteReg(0x74,0x3a);
+   OV9655_WriteReg(0x75,0x35);
+   //OV9655_WriteReg(0x74,0x01);
+   //OV9655_WriteReg(0x75,0x01);
+   OV9655_WriteReg(0xC7,0x81);
+   OV9655_WriteReg(0x8B,0x00);
 
-
-0x62,0x0,
-0x63,0x0,
-0x64,0x2,
-0x65,0x20,
-0x66,0x1,
-0x9d,0x2,
-0x9e,0x2,
-
-
-0x29,0x15,
-0xa9,0xef
-
-
-};*/
-
-
-
-  /* Initialize OV9655 */
-  //for(i=0; i<(sizeof(OV9655_VGA)/2); i++)
- // {
-    //OV9655_WriteReg(OV9655_VGA[i][0], OV9655_VGA[i][1]);
-  	OV9655_InitSet();
-
-	OV9655_WriteReg(0x12, 0x63);   /* com7 - 30fps VGA RGB */
-	OV9655_WriteReg(0x36, 0xfa);  /* aref3 */
-	OV9655_WriteReg(0x69, 0x0a);   /* hv */
-	OV9655_WriteReg(0x8c, 0x89);   /* com22 */
-	OV9655_WriteReg(0x14, 0x28);   /* com9 */
-	OV9655_WriteReg(0x3e, 0x0c);   /* com14 */
-	OV9655_WriteReg(0x41, 0x40);   /* com16 */
-	OV9655_WriteReg(0x72, 0x00);
-	OV9655_WriteReg(0x73, 0x00);
-	OV9655_WriteReg(0x74, 0x3a);
-	OV9655_WriteReg(0x75, 0x35);
-	OV9655_WriteReg(0x76, 0x01);
-	OV9655_WriteReg(0xc7, 0x80);   /* com24 */
 	OV9655_WriteReg(0x03, 0x12);   /* vref */
 	OV9655_WriteReg(0x17, 0x16);   /* hstart */
 	OV9655_WriteReg(0x18, 0x02);   /* hstop */
 	OV9655_WriteReg(0x19, 0x01);   /* vstrt */
 	OV9655_WriteReg(0x1a, 0x3d);   /* vstop */
 	OV9655_WriteReg(0x32, 0xff);   /* href */
-	OV9655_WriteReg(0xc0, 0xaa);
-	 
- 
-    
-  //}
+
+
+				   
+		
+				   
+
   
   
  
@@ -1785,6 +1470,72 @@ uint8_t OV9655_ReadReg(uint16_t Addr)
 
   /* return the read data */
   return Data;
+}
+
+
+void DCMI_OV9655_SetExposure(ImageFormat_TypeDef ImageFormat)
+{
+	OV9655_WriteReg(0x13,0xc2);//stop AEC
+	u16 Gain =  OV9655_ReadReg(0x00)|(OV9655_ReadReg(0x03)&0XC0)<<2;
+	u16 Preview_Exposure = (OV9655_ReadReg(0xa1)&0X3F)<<10|OV9655_ReadReg(0x10)<<2|(OV9655_ReadReg(0x04)&0X3);
+	/*u8 reg06 = OV9655_ReadReg(0x06);
+	u32 Capture_Exposure = Preview_Exposure;
+	u32 Capture_Gain =  Gain & 0x0f + 16
+	if (Gain & 0x10)
+		Capture_Gain = Capture_Gain << 1;
+	if (Gain & 0x20)
+		Capture_Gain = Capture_Gain << 1;
+	if (Gain & 0x40)
+		Capture_Gain = Capture_Gain << 1;
+	if (Gain & 0x80)
+		Capture_Gain = Capture_Gain << 1;
+
+	u32 Capture_Exposure_Gain = Capture_Exposure * Capture_Gain* Target_Luminance / reg06*/
+
+	switch(ImageFormat)
+  	{
+	    case BMP_QQVGA:
+	    {
+	      if(Preview_Exposure < 248)
+		 	Preview_Exposure = 248;
+	      break;
+	    }
+	    case BMP_QVGA:
+	    {
+	     if(Preview_Exposure < 248)
+		 	Preview_Exposure = 248;
+	      break;
+	    }
+	   
+	    case BMP_VGA:
+	    {
+	     if(Preview_Exposure < 498)
+		 	Preview_Exposure = 498;
+	      break;
+	    }
+	     case BMP_SXGA:
+	    {
+	      if(Preview_Exposure < 1048)
+		 	Preview_Exposure = 1048;
+	      break;
+	    }
+
+	    default:
+	    {
+	   
+	      break;
+	    }
+	}
+
+        Preview_Exposure = 248;
+	OV9655_WriteReg (0x04,(OV9655_ReadReg(0x04) & 0xfc) | (Preview_Exposure & 0x03));
+	OV9655_WriteReg (0x10,(Preview_Exposure >> 2) & 0xff);
+	OV9655_WriteReg (0xa1,(OV9655_ReadReg(0xa1)&0XC0)|Preview_Exposure >> 10);
+	
+	OV9655_WriteReg(0x03,OV9655_ReadReg(0x03)&0x1f);
+	OV9655_WriteReg(0x00,0xf0);
+
+	
 }
 
 

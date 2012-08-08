@@ -155,11 +155,20 @@ void SysTick_Handler(void)
 void DCMI_IRQHandler(void)
 {
      
-
-        intok = 1;
-        DCMI_ITConfig(DCMI_IT_FRAME ,DISABLE);
-        DCMI_CaptureCmd(DISABLE); 
-        DCMI_ClearITPendingBit(DCMI_IT_FRAME);
+        static int count = 0 ;
+        ++count;
+        //if(count ==3)
+          
+        if(count >3)
+        {
+        
+          intok = 1;
+          count = 0;
+          DCMI_ITConfig(DCMI_IT_FRAME ,DISABLE);
+          DCMI_CaptureCmd(DISABLE); 
+        }
+          DCMI_ClearITPendingBit(DCMI_IT_FRAME);
+          
           
 
 }

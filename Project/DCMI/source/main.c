@@ -104,13 +104,13 @@ int main(void)
   /* ADC configuration */
   ADC_Config();
   
-  
+
   //test_nandflsh_write_and_read();
   
     /* Configure FSMC Bank 1 NOR/SRAM2  */
   
+    SRAM_Init();
   
-  //SRAM_Init();
   //test_sram();
    
   
@@ -150,7 +150,7 @@ int main(void)
   LCD_SetTextColor(LCD_COLOR_YELLOW);
   LCD_DisplayStringLine(LINE(4), (uint8_t*)buffer);
   LCD_SetTextColor(LCD_COLOR_WHITE);
-  Delay(200);
+  //Delay(200);
 
   /* Initialize demo */
   //ImageFormat = (ImageFormat_TypeDef)Demo_Init();
@@ -159,6 +159,7 @@ int main(void)
 
   /* Configure the Camera module mounted on STM322xG-EVAL board */
   Demo_LCD_Clear();
+   
   LCD_DisplayStringLine(LINE(4), "Camera Init..               ");
   Camera_Config();
 
@@ -207,15 +208,15 @@ int main(void)
         case SEL:
           {
               PressedKey = 0;
+              ImageFormat = 0x02;
               LCD_Clear(Black);
-              LCD_SetTextColor(White);
               OV9655_SinCapture(ImageFormat);
               DCMI_NVIC_Config();
               DCMI_ITConfig(DCMI_IT_FRAME ,ENABLE);
                
-                DMA_Cmd(DMA2_Stream1, ENABLE); 
+               DMA_Cmd(DMA2_Stream1, ENABLE); 
                DCMI_Cmd(ENABLE); 
-                DCMI_CaptureCmd(ENABLE); 
+               DCMI_CaptureCmd(ENABLE); 
              
               break;
           }
@@ -259,17 +260,17 @@ int main(void)
     if(intok == 1)
     {
       //等待DMA传送完成后进行图像处理
-   
+    
       //图像处理部分
-        LCD_Clear(Black);
-   
+
+        OV9655_Display(ImageFormat);
         intok = 0;
-        OV9655_Init(BMP_QVGA);
+        /*OV9655_Init(BMP_QVGA);
         OV9655_QVGAConfig();
         DCMI_Cmd(ENABLE);  
         DMA_Cmd(DMA2_Stream1, ENABLE);
-  
-        DCMI_CaptureCmd(ENABLE); 
+ 
+        DCMI_CaptureCmd(ENABLE); */
     }
 
 

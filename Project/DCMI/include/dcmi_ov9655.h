@@ -302,6 +302,10 @@ void test_init();
 void test_qvga();
 void test_vga();
 
+void DCMI_OV9655_SetExposure(ImageFormat_TypeDef ImageFormat);
+void OV9655_InitSet();
+
+
 #endif /* __DCMI_OV9655_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
