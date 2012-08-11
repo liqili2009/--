@@ -208,11 +208,12 @@ int main(void)
         case SEL:
           {
               PressedKey = 0;
-              ImageFormat = 0x02;
+              ImageFormat = 0x01;
               LCD_Clear(Black);
-              OV9655_SinCapture(ImageFormat);
+               OV9655_SinCapture(ImageFormat);
               DCMI_NVIC_Config();
               DCMI_ITConfig(DCMI_IT_FRAME ,ENABLE);
+    
                
                DMA_Cmd(DMA2_Stream1, ENABLE); 
                DCMI_Cmd(ENABLE); 
@@ -262,7 +263,7 @@ int main(void)
       //等待DMA传送完成后进行图像处理
     
       //图像处理部分
-
+        
         OV9655_Display(ImageFormat);
         intok = 0;
         /*OV9655_Init(BMP_QVGA);

@@ -305,6 +305,9 @@ void test_vga();
 void DCMI_OV9655_SetExposure(ImageFormat_TypeDef ImageFormat);
 void OV9655_InitSet();
 
+void vuy422_to_rgb565(u16* yuv, u16* rgb, int num);
+void OV9655_VGA_YUV(void);
+void OV9655_QVGA_YUV(void);
 
 #endif /* __DCMI_OV9655_H */
 

@@ -1047,9 +1047,6 @@
       <name>$PROJ_DIR$\..\DCMI\source\camera_api.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\DCMI\source\dcmi_ov2640.c</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\DCMI\source\dcmi_ov7670.c</name>
     </file>
     <file>

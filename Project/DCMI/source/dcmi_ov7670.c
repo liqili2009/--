@@ -1,4 +1,7 @@
 #include "dcmi_ov7670.h"
+
+
+
 const uint8_t change_reg[CHANGE_REG_NUM][2]=
 {
         {0x3a, 0x08}, //must be U Y V Y

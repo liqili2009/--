@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-1176829886
+Checksum=2058498929
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -22,20 +22,19 @@ mode=0
 [Breakpoints2]
 Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\stm32f2xx_it.c}.162.3" 0 0 1 "" 0 "" 0
 Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov7670.c}.228.12" 0 0 1 "" 0 "" 0
-Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.1623.1" 0 0 1 "" 0 "" 0
+Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.1650.3" 0 0 1 "" 0 "" 0
 Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\NAND\source\test.c}.58.45" 0 0 1 "" 0 "" 0
 Bp4=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\stm32f2xx_it.c}.221.11" 0 0 1 "" 0 "" 0
 Bp5=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\stm32f2xx_it.c}.221.11" 0 0 1 "" 0 "" 0
 Bp6=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\test_fsmc_sram.c}.94.3" 0 0 1 "" 0 "" 0
-Bp7=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.1034.1" 0 0 1 "" 0 "" 0
-Bp8=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.1034.1" 0 0 1 "" 0 "" 0
-Bp9=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.1034.1" 0 0 1 "" 0 "" 0
+Bp7=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.1041.1" 0 0 1 "" 0 "" 0
+Bp8=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.1041.1" 0 0 1 "" 0 "" 0
+Bp9=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.1041.1" 0 0 1 "" 0 "" 0
 Bp10=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\main.c}.206.5" 0 0 1 "" 0 "" 0
-Bp11=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.855.1" 0 0 1 "" 0 "" 0
-Bp12=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\main.c}.213.15" 0 0 1 "" 0 "" 0
+Bp11=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.913.1" 0 0 1 "" 0 "" 0
+Bp12=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\main.c}.218.16" 0 0 1 "" 0 "" 0
 Bp13=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\NAND\source\diskio.c}.85.1" 0 0 1 "" 0 "" 0
-Bp14=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c}.599.2" 0 0 1 "" 0 "" 0
-Count=15
+Count=14
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
