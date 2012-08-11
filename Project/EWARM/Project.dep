@@ -2,7 +2,7 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>3368912830</fileChecksum>
+  <fileChecksum>2417912768</fileChecksum>
   <configuration>
     <name>STM322xG_EVAL</name>
     <outputs>
@@ -589,10 +589,6 @@
         <tool>
           <name>ICCARM</name>
           <file> 135 51 77 109 141 84 65 218 82 147 64 170 110 208 198 92 164 130 132 133 134 136 137 138 139 140 143 144 146 149 150 223 127 126 124 169 174 173 178 204 175 108</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 135 51 77 109 141 84 65 82 147 64 170 110 208 198 92 164 130 132 133 134 136 137 138 139 140 143 144 146 149 150 223 127 126 124 169 174 173 178 204 175 108</file>
         </tool>
       </inputs>
     </file>
