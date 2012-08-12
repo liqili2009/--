@@ -249,8 +249,8 @@ void Camera_Config(void)
       {
         /* Configure the OV9655 camera and set set the QVGA mode */
         OV9655_HW_Init();
-		OV9655_Init(BMP_QVGA);
-        DCMI_OV7670_Init();
+	OV9655_Init(BMP_QVGA);
+        
         
         break;
       }

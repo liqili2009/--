@@ -119,8 +119,7 @@ int main(void)
   IOE_Config();
   /* Read the OV9655/OV2640 Manufacturer identifier */
  OV9655_ReadID(&OV9655_Camera_ID);
-  //OV2640_ReadID(&OV2640_Camera_ID);
-  //OV7670_ReadID(&OV7670_Camera_ID);
+ 
 
   if(OV9655_Camera_ID.PID  == 0x96)
   {

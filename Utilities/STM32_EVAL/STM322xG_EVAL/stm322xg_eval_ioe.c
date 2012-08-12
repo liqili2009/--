@@ -158,12 +158,12 @@ uint8_t IOE_Config(void)
     /* Reset and check the presence of the OV9655 camera module */
 
  	I2C_WriteDeviceRegister(IOE_1_ADDR,0x03,0x0);
-        I2C_WriteDeviceRegister(IOE_1_ADDR,0x01, ~(0x1<<5));
+    I2C_WriteDeviceRegister(IOE_1_ADDR,0x01, ~(0x1<<5));
 	I2C_WriteDeviceRegister(IOE_1_ADDR,0x01, ~(0x1<<4|0x1<<5));
 	_delay_(20);
 	I2C_WriteDeviceRegister(IOE_1_ADDR,0x01,0xDF);
+	
 
-        
         
          I2C_WriteDeviceRegister(IOE_2_ADDR,0x03,0x1F);//set exp i/o 0...7 as input
          

@@ -571,21 +571,22 @@ void OV9655_Display(ImageFormat_TypeDef ImageFormat)
             }
             case BMP_QVGA:/*320*240*/
             {
-                 vuy422_to_rgb565((u16*)Bank1_SRAM2_ADDR,(u16*)Bank1_SRAM2_ADDR,320*240);
+                
               break;
             }
                  case BMP_VGA:/*640*480*/
             {
-                lseek0 = 76960;
-                lseek1 = 319;
-                vuy422_to_rgb565((u16*)Bank1_SRAM2_ADDR,(u16*)Bank1_SRAM2_ADDR,640*480);
+                lseek0 = 0;
+                lseek1 = 318;
+				//vuy422_to_rgb565((u16*)Bank1_SRAM2_ADDR,(u16*)Bank1_SRAM2_ADDR,640*480);
+             
                 break;
             }
                 case BMP_SXGA:/*1280*1024*/
             {
-                lseek0 = 461280;
-                        lseek1 = 959;
-                vuy422_to_rgb565((u16*)Bank1_SRAM2_ADDR,(u16*)Bank1_SRAM2_ADDR,1280*1024);
+                lseek0 = 0;
+                lseek1 = 638;  
+		//vuy422_to_rgb565((u16*)Bank1_SRAM2_ADDR,(u16*)Bank1_SRAM2_ADDR,640*480);
         
                 break;
             }
@@ -596,8 +597,7 @@ void OV9655_Display(ImageFormat_TypeDef ImageFormat)
             }
           }
 
-	lseek0 = lseek0*2;
-	lseek1 = lseek1*2;
+	
 
 
 	
@@ -675,7 +675,7 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
   //DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+ 	DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Enable;
   DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
@@ -704,8 +704,8 @@ void OV9655_SinCapture(ImageFormat_TypeDef ImageFormat)
     }
     case BMP_QVGA:
     {
-     //OV9655_QVGAConfig();
-     OV9655_QVGA_YUV();
+     OV9655_QVGAConfig();
+    
       break;
     }
    
@@ -820,7 +820,9 @@ void OV9655_ZoomPreview(ImageFormat_TypeDef ImageFormat,uint8_t m)
 void OV9655_QQVGAConfig(void)
 {
 
-
+	OV9655_WriteReg(0x12,0x80);
+	Delay(5);
+	
   OV9655_InitSet();
 
   OV9655_WriteReg(0x32, 0xa4);   /* href */
@@ -843,12 +845,12 @@ void OV9655_QVGAConfig(void)
 
  
   	OV9655_InitSet();
-	OV9655_WriteReg(0x03, 0x12);   /* vref */
-	OV9655_WriteReg(0x17, 0x16);   /* hstart */
-	OV9655_WriteReg(0x18, 0x02);   /* hstop */
-	OV9655_WriteReg(0x19, 0x01);   /* vstrt */
-	OV9655_WriteReg(0x1a, 0x3d);   /* vstop */
-	OV9655_WriteReg(0x32, 0xff);   /* href */
+	//OV9655_WriteReg(0x03, 0x12);   /* vref */
+	//OV9655_WriteReg(0x17, 0x16);   /* hstart */
+	//OV9655_WriteReg(0x18, 0x02);   /* hstop */
+	//OV9655_WriteReg(0x19, 0x01);   /* vstrt */
+	//OV9655_WriteReg(0x1a, 0x3d);   /* vstop */
+	//OV9655_WriteReg(0x32, 0xff);   /* href */
 	
   
 
@@ -857,9 +859,11 @@ void OV9655_QVGAConfig(void)
 }
 void OV9655_QVGA_YUV()
 {
-	OV9655_InitSet();
+	//OV9655_InitSet();
+        OV9655_WriteReg(0x12, 0x62);
 	OV9655_WriteReg(0x3a, 0x8c);    //0x80 to 0x8c, UYVY
-	OV9655_WriteReg(0x12, 0x62);
+	//OV9655_WriteReg(0x8c, 0x0c);
+	
 	OV9655_WriteReg(0x03, 0x12);   /* vref */
 	OV9655_WriteReg(0x17, 0x16);   /* hstart */
 	OV9655_WriteReg(0x18, 0x02);   /* hstop */
@@ -1145,9 +1149,168 @@ OV9655_WriteReg(0xc5, 0x07);
 	}
 
 }*/
+	
+	void IMG_ycbcr422p_rgb_c
+	(
+		const short 			coeff[5],	/* Matrix coefficients. 			*/
+		const unsigned char 	*y_data,	/* Luminence data		 (Y')		*/
+		const unsigned char 	*cb_data,	/* Blue color-difference (B'-Y')	*/
+		const unsigned char 	*cr_data,	/* Red color-difference  (R'-Y')	*/
+		unsigned short *restrict rgb_data,	/* RGB 5:6:5 packed pixel output.	*/
+		unsigned				num_pixels	/* # of luma pixels to process. 	*/
+	)
+	{
+		int 	i;						/* Loop counter 					*/
+		int 	y0, y1; 				/* Individual Y components			*/
+		int 	cb, cr; 				/* Color difference components		*/
+		int 	y0t,y1t;				/* Temporary Y values				*/
+		int 	rt, gt, bt; 			/* Temporary RGB values 			*/
+		int 	r0, g0, b0; 			/* Individual RGB components		*/
+		int 	r1, g1, b1; 			/* Individual RGB components		*/
+		int 	r0t,g0t,b0t;			/* Truncated RGB components 		*/
+		int 	r1t,g1t,b1t;			/* Truncated RGB components 		*/
+		int 	r0s,g0s,b0s;			/* Saturated RGB components 		*/
+		int 	r1s,g1s,b1s;			/* Saturated RGB components 		*/
+	
+		short	luma = coeff[0];		/* Luma scaling coefficient.		*/
+		short	r_cr = coeff[1];		/* Cr's contribution to Red.		*/
+		short	g_cb = coeff[2];		/* Cb's contribution to Green.		*/
+		short	g_cr = coeff[3];		/* Cr's contribution to Green.		*/
+		short	b_cb = coeff[4];		/* Cb's contribution to Blue.		*/
+	
+		unsigned short	rgb0, rgb1; 	/* Packed RGB pixel data			*/
+		unsigned short	a,b;
+		/* -------------------------------------------------------------------- */
+		/*	Iterate for num_pixels/2 iters, since we process pixels in pairs.	*/
+		/* -------------------------------------------------------------------- */
+		i = num_pixels >> 1;
+	
+		while (i-->0)
+		{
+			/* ---------------------------------------------------------------- */
+			/*	Read in YCbCr data from the separate data planes.				*/
+			/*																	*/
+			/*	The Cb and Cr channels come in biased upwards by 128, so		*/
+			/*	subtract the bias here before performing the multiplies for 	*/
+			/*	the color space conversion itself.	Also handle Y's upward		*/
+			/*	bias of 16 here.												*/
+			/* ---------------------------------------------------------------- */
+	
+			y0 = *y_data++	- 16;
+			y1 = *y_data++	- 16;
+			cb = *cb_data++ - 128;
+			cr = *cr_data++ - 128;
+	
+			/* ================================================================ */
+			/*	Convert YCrCb data to RGB format using the following matrix:	*/
+			/*																	*/
+			/*		[ coeff[0] 0.0000	coeff[1] ]	 [ Y' -  16 ]	  [ R'] 	*/
+			/*		[ coeff[0] coeff[2] coeff[3] ] * [ Cb - 128 ]  =  [ G'] 	*/
+			/*		[ coeff[0] coeff[4] 0.0000	 ]	 [ Cr - 128 ]	  [ B'] 	*/
+			/*																	*/
+			/*	We use signed Q13 coefficients for the coefficients to make 	*/
+			/*	good use of our 16-bit multiplier.	Although a larger Q-point	*/
+			/*	may be used with unsigned coefficients, signed coefficients 	*/
+			/*	add a bit of flexibility to the kernel without significant		*/
+			/*	loss of precision.												*/
+			/* ================================================================ */
+	
+			/* ---------------------------------------------------------------- */
+			/*	Calculate chroma channel's contribution to RGB. 				*/
+			/* ---------------------------------------------------------------- */
+			rt	= r_cr * (short)cr;
+			gt	= g_cb * (short)cb + g_cr * (short)cr;
+			bt	= b_cb * (short)cb;
+	
+			/* ---------------------------------------------------------------- */
+			/*	Calculate intermediate luma values.  Include bias of 16 here.	*/
+			/* ---------------------------------------------------------------- */
+			y0t = luma * (short)y0;
+			y1t = luma * (short)y1;
+	
+			/* ---------------------------------------------------------------- */
+			/*	Mix luma, chroma channels.										*/
+			/* ---------------------------------------------------------------- */
+			r0	= y0t + rt; r1 = y1t + rt;
+			g0	= y0t + gt; g1 = y1t + gt;
+			b0	= y0t + bt; b1 = y1t + bt;
+	
+			/* ================================================================ */
+			/*	At this point in the calculation, the RGB components are		*/
+			/*	nominally in the format below.	If the color is outside the 	*/
+			/*	our RGB gamut, some of the sign bits may be non-zero,			*/
+			/*	triggering saturation.											*/
+			/*																	*/
+			/*					3	  2 2		 1 1							*/
+			/*					1	  1 0		 3 2		 0					*/
+			/*				   [ SIGN  | COLOR	  | FRACTION ]					*/
+			/*																	*/
+			/*	This gives us an 8-bit range for each of the R, G, and B		*/
+			/*	components.  (The transform matrix is designed to transform 	*/
+			/*	8-bit Y/C values into 8-bit R,G,B values.)	To get our final	*/
+			/*	5:6:5 result, we "divide" our R, G and B components by 4, 8,	*/
+			/*	and 4, respectively, by reinterpreting the numbers in the		*/
+			/*	format below:													*/
+			/*																	*/
+			/*			Red,	3	  2 2	  1 1								*/
+			/*			Blue	1	  1 0	  6 5			 0					*/
+			/*				   [ SIGN  | COLOR | FRACTION	 ]					*/
+			/*																	*/
+			/*					3	  2 2	   1 1								*/
+			/*			Green	1	  1 0	   5 4			 0					*/
+			/*				   [ SIGN  | COLOR	| FRACTION	 ]					*/
+			/*																	*/
+			/*	"Divide" is in quotation marks because this step requires no	*/
+			/*	actual work.  The code merely treats the numbers as having a	*/
+			/*	different Q-point.												*/
+			/* ================================================================ */
+	
+			/* ---------------------------------------------------------------- */
+			/*	Shift away the fractional portion, and then saturate to the 	*/
+			/*	RGB 5:6:5 gamut.												*/
+			/* ---------------------------------------------------------------- */
+			r0t = r0 >> 16;
+			g0t = g0 >> 15;
+			b0t = b0 >> 16;
+			r1t = r1 >> 16;
+			g1t = g1 >> 15;
+			b1t = b1 >> 16;
+	
+			r0s = r0t < 0 ? 0 : r0t > 31 ? 31 : r0t;
+			g0s = g0t < 0 ? 0 : g0t > 63 ? 63 : g0t;
+			b0s = b0t < 0 ? 0 : b0t > 31 ? 31 : b0t;
+			r1s = r1t < 0 ? 0 : r1t > 31 ? 31 : r1t;
+			g1s = g1t < 0 ? 0 : g1t > 63 ? 63 : g1t;
+			b1s = b1t < 0 ? 0 : b1t > 31 ? 31 : b1t;
+	
+			/* ---------------------------------------------------------------- */
+			/*	Merge values into output pixels.								*/
+			/* ---------------------------------------------------------------- */
+			rgb0 = (r0s << 11) + (g0s <<  5) + (b0s <<	0);
+			a=rgb0>>8;	  
+			b=rgb0<<8;
+			rgb0=a+b;
+			rgb0=rgb0<<2;
+			
+			rgb1 = (r1s << 11) + (g1s <<  5) + (b1s <<	0);
+			a=rgb1>>8;
+			b=rgb1<<8;
+			rgb1=a+b;
+		   
+		   
+			/* ---------------------------------------------------------------- */
+			/*	Store resulting pixels to memory.								*/
+			/* ---------------------------------------------------------------- */
+			*rgb_data++ = rgb0;
+			*rgb_data++ = rgb1;
+		}
+	
+		return;
+	
+	}
 
 
-void vuy422_to_rgb565(u16* yuv, u16* rgb, int num)
+/*void vuy422_to_rgb565(u16* yuv, u16* rgb, int num)
 {
 	int yy, uu, vv, ug_plus_vg, ub, vr;
 	int r,g,b;
@@ -1182,12 +1345,121 @@ void vuy422_to_rgb565(u16* yuv, u16* rgb, int num)
 		yuv += 2;
 		rgb += 2;
 	}
+}*/
+
+
+
+void vuy422_to_rgb565(u16* yuv, u16* rgb, int num)
+{
+	int yy, uu, vv, ug_plus_vg, ub, vr;
+	int r,g,b;
+	u16 data[3];
+	//unsigned int total = width*height;
+	num /= 2;
+	while (num--) {
+		yy = (yuv[0]&0xff00)>>8;
+		uu = yuv[0]&0xff;
+		vv = yuv[1]&0xff;
+		ug_plus_vg = uu * 88 + vv * 183;
+		ub = uu * 454;
+		vr = vv * 359;
+
+
+		
+		
+		
+		r = yy;
+		g = yy;
+		b = yy;
+		
+
+		data[0] = r < 0 ? 0 : (r > 255 ? 255 : (unsigned char)r);
+		data[1] = g < 0 ? 0 : (g > 255 ? 255 : (unsigned char)g);
+		data[2] = b < 0 ? 0 : (b > 255 ? 255 : (unsigned char)b);
+
+		rgb[0] = data[2]>>3|(data[1]&0xfc)<<3|(data[0]&0xf8)<<8;
+		yy = (yuv[1] &0xff00)>>8;
+		r = yy ;
+		g = yy;
+		b = yy ;
+		data[0] = r < 0 ? 0 : (r > 255 ? 255 : (unsigned char)r);
+		data[1] = g < 0 ? 0 : (g > 255 ? 255 : (unsigned char)g);
+		data[2] = b < 0 ? 0 : (b > 255 ? 255 : (unsigned char)b);
+
+
+		rgb[1] = data[2]>>3|(data[1]&0xfc)<<3|(data[0]&0xf8)<<8;
+		yuv += 2;
+		rgb += 2;
+	}
 }
 
 
 
 void OV9655_VGA_YUV(void)
 {
+	OV9655_Reset();
+	OV9655_InitSet();
+	 
+	OV9655_WriteReg(0x36, 0xfa);	/* aref3 */
+	OV9655_WriteReg(0x69, 0x0a);	/* hv */
+	OV9655_WriteReg(0x8c, 0x89);	/* com22 */
+	OV9655_WriteReg(0x14, 0x28);	/* com9 */
+	OV9655_WriteReg(0x3e, 0x0c);	/* com14 */
+	OV9655_WriteReg(0x41, 0x40);	/* com16 */
+	OV9655_WriteReg(0x72, 0x00);
+	OV9655_WriteReg(0x73, 0x00);
+	OV9655_WriteReg(0x74, 0x3a);
+	OV9655_WriteReg(0x75, 0x35);
+	OV9655_WriteReg(0x76, 0x01);
+	OV9655_WriteReg(0xc7, 0x80);	/* com24 */
+	OV9655_WriteReg(0x03, 0x12);	/* vref */
+	OV9655_WriteReg(0x17, 0x16);	/* hstart */
+	OV9655_WriteReg(0x18, 0x02);	/* hstop */
+	OV9655_WriteReg(0x19, 0x01);	/* vstrt */
+	OV9655_WriteReg(0x1a, 0x3d);	/* vstop */
+	OV9655_WriteReg(0x32, 0xff);	/* href */
+	OV9655_WriteReg(0xc0, 0xaa);
+	OV9655_WriteReg(0x12, 0x63);  /* com7 - 30fps VGA YUV */
+	OV9655_WriteReg(0X15,0X08);
+	OV9655_WriteReg(0X04,0X03);
+	OV9655_WriteReg(0X40,0X10);
+
+	
+	
+}
+
+
+
+/**
+  * @brief  SConfigures the OV9655 camera in VGA mode.
+  * @param  None
+  * @retval None
+  */
+void OV9655_VGAConfig(void)
+{
+ 
+
+	/*OV9655_Reset();
+	OV9655_InitSet();
+
+	
+   OV9655_WriteReg(0x04, 0x00);
+
+OV9655_WriteReg(0x12, 0x03);   
+OV9655_WriteReg(0x11, 0x00); 
+OV9655_WriteReg(0x36, 0xfa);   
+OV9655_WriteReg(0x69, 0x0a);  
+OV9655_WriteReg(0x8c, 0x89);   
+OV9655_WriteReg(0x14, 0x28);   
+//OV9655_WriteReg(0x3e, 0x0c);
+ OV9655_WriteReg(0x41, 0x40);  
+OV9655_WriteReg(0x72, 0x00);
+OV9655_WriteReg(0x73, 0x00);
+OV9655_WriteReg(0x74, 0x3a);
+ OV9655_WriteReg(0x75, 0x35);
+OV9655_WriteReg(0x76, 0x01);
+ OV9655_WriteReg(0xc7, 0x81);*/
+
 	OV9655_WriteReg(0x12, 0x80);
         Delay(3);
         OV9655_WriteReg(0x00, 0x00);//11镜像
@@ -1199,7 +1471,7 @@ void OV9655_VGA_YUV(void)
 	OV9655_WriteReg(0x0e, 0x61);
 	OV9655_WriteReg(0x0f, 0x40);
 	OV9655_WriteReg(0x11, 0x05);////601:05 pclk=8.33M 或07pclk=6.5M //656:07  05
-	OV9655_WriteReg(0x12, 0x62);
+	OV9655_WriteReg(0x12, 0x63);
 	OV9655_WriteReg(0x13, 0xc7);
 	OV9655_WriteReg(0x14, 0x3a);
 	OV9655_WriteReg(0x16, 0x24);
@@ -1224,7 +1496,7 @@ void OV9655_VGA_YUV(void)
 	OV9655_WriteReg(0x36, 0xfa);
 	OV9655_WriteReg(0x38, 0x72);
 	OV9655_WriteReg(0x39, 0x57);
-	OV9655_WriteReg(0x3a, 0x8c);//601模蔝 UYVY//656：88
+	//OV9655_WriteReg(0x3a, 0x8c);//601模蔝 UYVY//656：88
 	OV9655_WriteReg(0x3b, 0x04);
 	OV9655_WriteReg(0x3d, 0x99);
 	OV9655_WriteReg(0x3e, 0x0c);
@@ -1336,58 +1608,7 @@ void OV9655_VGA_YUV(void)
 	OV9655_WriteReg(0xcc, 0xd8);
 	OV9655_WriteReg(0xcd, 0x93);
 	OV9655_WriteReg(0xcd, 0x93);
-}
 
-
-
-/**
-  * @brief  SConfigures the OV9655 camera in VGA mode.
-  * @param  None
-  * @retval None
-  */
-void OV9655_VGAConfig(void)
-{
- 
-
-	//OV9655_Reset();
-	OV9655_InitSet();
-
-	
-	/*
-   OV9655_WriteReg(0x72, 0x00);
-   OV9655_WriteReg(0x73, 0x00);
-   OV9655_WriteReg(0x36, 0xfa), 
-   OV9655_WriteReg(0x3e, 0x0c);
-   OV9655_WriteReg(0x41, 0x40);
-   
-   OV9655_WriteReg(0x74,0x3a);
-   OV9655_WriteReg(0x75,0x35);
-   OV9655_WriteReg(0x74,0x01);
-   OV9655_WriteReg(0x75,0x01);
-   OV9655_WriteReg(0xC7,0x81);
-   OV9655_WriteReg(0x8B,0x00);*/
-   OV9655_WriteReg(0x04, 0x00);
-
-OV9655_WriteReg(0x12, 0x03);   /* com7 - 30fps VGA RGB */
-OV9655_WriteReg(0x11, 0x00); 
-OV9655_WriteReg(0x36, 0xfa);   /* aref3 */
-OV9655_WriteReg(0x69, 0x0a);   /* hv */
-OV9655_WriteReg(0x8c, 0x89);   /* com22 */
-OV9655_WriteReg(0x14, 0x28);   /* com9 */
-//OV9655_WriteReg(0x3e, 0x0c);
- OV9655_WriteReg(0x41, 0x40);   /* com16 */
-OV9655_WriteReg(0x72, 0x00);
-OV9655_WriteReg(0x73, 0x00);
-OV9655_WriteReg(0x74, 0x3a);
- OV9655_WriteReg(0x75, 0x35);
-OV9655_WriteReg(0x76, 0x01);
- OV9655_WriteReg(0xc7, 0x81);
-//OV9655_WriteReg(0x03, 0x12);   /* vref */
-//OV9655_WriteReg(0x17, 0x16);   /* hstart */
-//OV9655_WriteReg(0x18, 0x02);   /* hstop */
-//OV9655_WriteReg(0x19, 0x01);   /* vstrt */
-//OV9655_WriteReg(0x1a, 0x3d);   /* vstop */
-//OV9655_WriteReg(0x32, 0xff);   /* href */
  
 
 
@@ -1410,168 +1631,168 @@ OV9655_WriteReg(0x76, 0x01);
   */
 void OV9655_SXGAConfig(void)
 {
-  uint32_t i;
+   OV9655_WriteReg(0X12,0X80);
+  Delay(5);
+OV9655_WriteReg(0X13,0X00);
+OV9655_WriteReg(0X00,0X00);
+OV9655_WriteReg(0X01,0X80);
+OV9655_WriteReg(0X02,0X80);
+OV9655_WriteReg(0X03,0X1B);
+OV9655_WriteReg(0X0E,0X61);
+OV9655_WriteReg(0X0F,0X42);
+OV9655_WriteReg(0X10,0XF0);
+OV9655_WriteReg(0X11,0X01);
+OV9655_WriteReg(0X12,0X02);//0X12,0X03//SXGA
+OV9655_WriteReg(0X14,0X1A);
+OV9655_WriteReg(0X16,0X14);
+OV9655_WriteReg(0X17,0X1D);
+OV9655_WriteReg(0X18,0XBD);
+OV9655_WriteReg(0X19,0X01);
+OV9655_WriteReg(0X1A,0X81);
+OV9655_WriteReg(0X1E,0X04);
+OV9655_WriteReg(0X24,0X3C);
+OV9655_WriteReg(0X25,0X36);
+OV9655_WriteReg(0X26,0X72);
+OV9655_WriteReg(0X27,0X08);
+OV9655_WriteReg(0X28,0X08);
+OV9655_WriteReg(0X2A,0X00);
+OV9655_WriteReg(0X2B,0X4C);
+OV9655_WriteReg(0X2C,0X08);
+OV9655_WriteReg(0X2D,0XD2);
+OV9655_WriteReg(0X32,0XFF);
+OV9655_WriteReg(0X33,0X00);
+OV9655_WriteReg(0X34,0X3D);
+OV9655_WriteReg(0X35,0X00);
+OV9655_WriteReg(0X36,0XF0);
+OV9655_WriteReg(0X39,0X57);
+OV9655_WriteReg(0X3A,0XCC);
+OV9655_WriteReg(0X3B,0XAC);
+OV9655_WriteReg(0X3D,0X99);
+OV9655_WriteReg(0X3E,0X0C);
+OV9655_WriteReg(0X3F,0X42);
+OV9655_WriteReg(0X41,0X40);
+OV9655_WriteReg(0X42,0XC0);
+OV9655_WriteReg(0X6B,0X5A);
+OV9655_WriteReg(0X71,0XA0);
+OV9655_WriteReg(0X72,0X00);
+OV9655_WriteReg(0X73,0X01);
+OV9655_WriteReg(0X74,0X3A);
+OV9655_WriteReg(0X75,0X35);
+OV9655_WriteReg(0X76,0X01);
+OV9655_WriteReg(0X77,0X02);
+OV9655_WriteReg(0X7A,0X20);
+OV9655_WriteReg(0X7B,0X1C);
+OV9655_WriteReg(0X7C,0X28);
+OV9655_WriteReg(0X7D,0X3C);
+OV9655_WriteReg(0X7E,0X5A);
+OV9655_WriteReg(0X7F,0X68);
+OV9655_WriteReg(0X80,0X76);
+OV9655_WriteReg(0X81,0X80);
+OV9655_WriteReg(0X82,0X88);
+OV9655_WriteReg(0X83,0X8F);
+OV9655_WriteReg(0X84,0X96);
+OV9655_WriteReg(0X85,0XA3);
+OV9655_WriteReg(0X86,0XAF);
+OV9655_WriteReg(0X87,0XC4);
+OV9655_WriteReg(0X88,0XD7);
+OV9655_WriteReg(0X89,0XE8);
+OV9655_WriteReg(0X8A,0X23);
+OV9655_WriteReg(0X8C,0X80);
+OV9655_WriteReg(0X90,0X20);
+OV9655_WriteReg(0X91,0X20);
+OV9655_WriteReg(0X9F,0X20);
+OV9655_WriteReg(0XA0,0X20);
+OV9655_WriteReg(0XA4,0X50);
+OV9655_WriteReg(0XA5,0X90);
+OV9655_WriteReg(0XA8,0XC1);
+OV9655_WriteReg(0XA9,0XFA);
+OV9655_WriteReg(0XAA,0X92);
+OV9655_WriteReg(0XAB,0X04);
+OV9655_WriteReg(0XAC,0X80);
+OV9655_WriteReg(0XAD,0X80);
+OV9655_WriteReg(0XAE,0X80);
+OV9655_WriteReg(0XAF,0X80);
+OV9655_WriteReg(0XB2,0XF2);
+OV9655_WriteReg(0XB3,0X20);
+OV9655_WriteReg(0XB4,0X20);
+OV9655_WriteReg(0XB5,0X52);
+OV9655_WriteReg(0XB6,0XAF);
+OV9655_WriteReg(0XBB,0XAE);
+OV9655_WriteReg(0XB5,0X00);
+OV9655_WriteReg(0XC1,0XC8);
+OV9655_WriteReg(0XC2,0X01);
+OV9655_WriteReg(0XC3,0X4E);
+OV9655_WriteReg(0XC6,0X85);
+OV9655_WriteReg(0XC7,0X80);
+OV9655_WriteReg(0XC9,0XE0);
+OV9655_WriteReg(0XCA,0XE8);
+OV9655_WriteReg(0XCB,0XF0);
+OV9655_WriteReg(0XCC,0XD8);
+OV9655_WriteReg(0XCD,0X93);
+OV9655_WriteReg(0X4F,0X98);
+OV9655_WriteReg(0X50,0X98);
+OV9655_WriteReg(0X51,0X00);
+OV9655_WriteReg(0X52,0X28);
+OV9655_WriteReg(0X53,0X70);
+OV9655_WriteReg(0X54,0X98);
+OV9655_WriteReg(0X3B,0XCC);
+OV9655_WriteReg(0X43,0X14);
+OV9655_WriteReg(0X44,0XF0);
+OV9655_WriteReg(0X45,0X46);
+OV9655_WriteReg(0X46,0X62);
+OV9655_WriteReg(0X47,0X2A);
+OV9655_WriteReg(0X48,0X3C);
+OV9655_WriteReg(0X59,0X85);
+OV9655_WriteReg(0X5A,0XA9);
+OV9655_WriteReg(0X5B,0X64);
+OV9655_WriteReg(0X5C,0X84);
+OV9655_WriteReg(0X5D,0X53);
+OV9655_WriteReg(0X5E,0X0E);
+OV9655_WriteReg(0X6C,0X0C);
+OV9655_WriteReg(0X6D,0X55);
+OV9655_WriteReg(0X6E,0X00);
+OV9655_WriteReg(0X6F,0X9E);
+OV9655_WriteReg(0X62,0X00);
+OV9655_WriteReg(0X63,0X00);
+OV9655_WriteReg(0X64,0X01);
+OV9655_WriteReg(0X65,0X20);
+OV9655_WriteReg(0X9D,0X01);
+OV9655_WriteReg(0X9E,0X02);
+OV9655_WriteReg(0X66,0X05);
+OV9655_WriteReg(0X29,0X15);
+OV9655_WriteReg(0XA9,0XEF);
+OV9655_WriteReg(0X13,0XE7);
+OV9655_WriteReg(0XA3,0X4A);
+OV9655_WriteReg(0X3B,0XAC);
+OV9655_WriteReg(0X14,0X1A);
+OV9655_WriteReg(0X66,0X00);
+OV9655_WriteReg(0X2D,0X00);
+OV9655_WriteReg(0X2E,0X00);
+OV9655_WriteReg(0X2A,0X10);
+OV9655_WriteReg(0X2B,0X6E);
+OV9655_WriteReg(0X92,0XD2);
+OV9655_WriteReg(0X93,0X00);
+OV9655_WriteReg(0X2A,0X00);
+OV9655_WriteReg(0X2B,0X00);
+OV9655_WriteReg(0X92,0X37);
+OV9655_WriteReg(0X93,0X00);
+OV9655_WriteReg(0XA2,0X4E);
+OV9655_WriteReg(0XA3,0X4E);
+OV9655_WriteReg(0X6A,0X4E);
+OV9655_WriteReg(0X6B,0X5A);
 
-unsigned char OV9655_SXGA[][2]=
-{
-  	0x12, 0x80,
-	0x00, 0x00,
-        0x01, 0x80,
-	0x02, 0x80,
-	0x03, 0x1b,
-	0x04, 0x43,
-	0x0b, 0x57,
-	0x0e, 0x61,
-	0x0f, 0x44,////40
-	0x11, 0x08,///04 pclk=10M|05 pclk=8.33M|06 pclk=7.138M上可|07 pclk=6.25M|08 pclk=5.55M  good|
-	0x12, 0x02,///09 pclk=5M|
-	0x13, 0xc7,  // was e7 - turned banding filter off
-	0x14, 0x3a,
-	0x16, 0x24,
-	0x17, 0x1d,
-	0x18, 0xbd,
-	0x19, 0x01,
-	0x1a, 0x81,
-	0x1e, 0x04,
-	0x24, 0x3c,
-	0x25, 0x36,
-	0x26, 0x72,
-	0x27, 0x08,
-	0x28, 0x08,
-	0x29, 0x15,
-	0x2a, 0x00,
-	0x2b, 0x00,
-	0x2c, 0x08,
-	0x32, 0xff,
-	0x33, 0x00,
-	0x34, 0x3d,///3d
-	0x35, 0x00,
-	0x36, 0xf8,///f8
-	0x38, 0x72,
-	0x39, 0x57,
-	0x3a, 0x8c , // UYVY capture
-	0x3b, 0x04,
-	0x3d, 0x99,
-	0x3e, 0x0c,
-	0x3f, 0xc1,
-	0x40, 0xc0,
-	0x41, 0x00,
-	0x42, 0xc0,
-	0x43, 0x0a,
-	0x44, 0xf0,
-	0x45, 0x46,
-	0x46, 0x62,
-	0x47, 0x2a,
-	0x48, 0x3c,
-	0x4a, 0xfc,
-	0x4b, 0xfc,
-	0x4c, 0x7f,
-	0x4d, 0x7f,
-	0x4e, 0x7f,
-	0x4f, 0x98,
-	0x50, 0x98,
-	0x51, 0x00,
-	0x52, 0x28,
-	0x53, 0x70,///88
-	0x54, 0x98,///b0
-	0x58, 0x1a,
-	0x58, 0x1a,
-	0x59, 0x85,
-	0x5a, 0xa9,
-	0x5b, 0x64,
-	0x5c, 0x84,
-	0x5d, 0x53,
-	0x5e, 0x0e,
-	0x5f, 0xf0,
-	0x60, 0xf0,
-	0x61, 0xf0,
-	0x62, 0x00,
-	0x63, 0x00,
-	0x64, 0x02,
-	0x65, 0x20,///16
-	0x66, 0x00,
-	0x69, 0x0a,
-	0x6b, 0x5a,
-	0x6c, 0x04,
-	0x6d, 0x55,
-	0x6e, 0x00,
-	0x6f, 0x9d,
-	0x70, 0x21,
-	0x71, 0x78,
-	0x72, 0x00,
-	0x73, 0x00,
-	0x74, 0x3a,
-	0x75, 0x35,
-	0x76, 0x01,
-	0x77, 0x02,
-	0x7A, 0x12,
-	0x7B, 0x08,
-	0x7C, 0x16,
-	0x7D, 0x30,
-	0x7E, 0x5e,
-	0x7F, 0x72,
-	0x80, 0x82,
-	0x81, 0x8e,
-	0x82, 0x9a,
-	0x83, 0xa4,
-	0x84, 0xac,
-	0x85, 0xb8,
-	0x86, 0xc3,
-	0x87, 0xd6,
-	0x88, 0xe6,
-	0x89, 0xf2,
+OV9655_WriteReg(0X15,0X08);
+OV9655_WriteReg(0X04,0X03);
+OV9655_WriteReg(0X40,0X10);
+/*not insert dummy pixls and lines*/
+OV9655_WriteReg(0X2A,0X00);
+OV9655_WriteReg(0X2B,0X00);
+OV9655_WriteReg(0X92,0X00);
+OV9655_WriteReg(0X93,0X00);
 
-    0x8a, 0x24,///03
-	0x8c, 0x8d,///0d
-	0x90, 0x7d,
-	0x91, 0x7b,
-	0x9d, 0x02,///03
-	0x9e, 0x02,///04
-	0x9f, 0x7a,
-	0xa0, 0x79,
-	0xa1, 0x40, ///10  //  changes exposure time - default was 0x40
-	0xa4, 0x50,
-	0xa5, 0x68,
-	0xa6, 0x4a,
-	0xa8, 0xc1,
-	0xa9, 0xef,
-	0xaa, 0x92,
-	0xab, 0x04,
-	0xac, 0x80,
-	0xad, 0x80,
-	0xae, 0x80,
-	0xaf, 0x80,
-	0xb2, 0xf2,
-	0xb3, 0x20,
-	0xb4, 0x20,
-	0xb5, 0x00,
-	0xb6, 0xaf,
-	0xbb, 0xae,
-	0xbc, 0x7f,
-	0xbd, 0x7f,
-	0xbe, 0x7f,
-	0xbf, 0x7f,
-	0xc0, 0xaa,///e2
-	0xc1, 0xc0,
-	0xc2, 0x01,
-	0xc3, 0x4e,
-	0xc6, 0x05,
-	0xc7, 0x80,
-	0xc9, 0xe0,
-	0xca, 0xe8,
-	0xcb, 0xf0,
-	0xcc, 0xd8,
-	0xcd, 0x93
-};
-  OV9655_Reset();
-  Delay(200);
 
-  /* Initialize OV9655 */
-  for(i=0; i<(sizeof(OV9655_SXGA)/2); i++)
-  {
-    OV9655_WriteReg(OV9655_SXGA[i][0], OV9655_SXGA[i][1]);
-    Delay(2);
-  }
+
+
 }
 
 

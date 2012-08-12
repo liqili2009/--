@@ -159,7 +159,7 @@ void DCMI_IRQHandler(void)
         ++count;
         //if(count ==3)
           
-        if(count >3)
+        if(count >20)
         {
         
           intok = 1;

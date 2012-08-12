@@ -1050,9 +1050,6 @@
       <name>$PROJ_DIR$\..\DCMI\source\dcmi_ov2640.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\DCMI\source\dcmi_ov7670.c</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\DCMI\source\dcmi_ov9655.c</name>
     </file>
     <file>
